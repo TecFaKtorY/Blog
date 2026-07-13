@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
@@ -12,22 +11,21 @@ Employment Scam Alert | Tec Faktory Blog
 </title>
 
 
-<meta name="description" content="Learn how fake employment recruiters use online job scams to steal identities and how to protect yourself.">
+<meta name="description" content="Learn how fake recruiters use employment scams to steal identities and how to protect yourself online.">
 
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 
 
 <style>
 
 
 *{
-
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
-
 }
 
 
@@ -67,6 +65,7 @@ body.light{
 
 --dark:#f8fafc;
 --card:#ffffff;
+
 --text:#111827;
 --muted:#475569;
 
@@ -81,13 +80,16 @@ var(--dark);
 
 
 
+/* HEADER */
+
+
 header{
 
 position:sticky;
 
 top:0;
 
-z-index:100;
+z-index:1000;
 
 backdrop-filter:blur(15px);
 
@@ -134,10 +136,11 @@ color:white;
 }
 
 
-
 .logo span{
 
-background:linear-gradient(
+background:
+
+linear-gradient(
 90deg,
 var(--primary),
 var(--secondary)
@@ -151,11 +154,13 @@ color:transparent;
 
 
 
-button{
+#themeToggle{
 
 border:none;
 
-padding:12px;
+width:45px;
+
+height:45px;
 
 border-radius:50%;
 
@@ -171,13 +176,33 @@ font-size:20px;
 
 
 
+
+/* ARTICLE */
+
+
 .article{
 
 max-width:900px;
 
 margin:70px auto;
 
-padding:30px;
+padding:20px;
+
+}
+
+
+
+.article-image{
+
+width:100%;
+
+height:450px;
+
+object-fit:cover;
+
+border-radius:25px;
+
+margin-bottom:40px;
 
 }
 
@@ -197,7 +222,7 @@ line-height:1.3;
 
 color:#38bdf8;
 
-margin:20px 0;
+margin:20px 0 40px;
 
 }
 
@@ -241,6 +266,11 @@ margin:10px;
 
 
 
+
+
+/* BOXES */
+
+
 .box{
 
 background:var(--card);
@@ -249,7 +279,7 @@ padding:25px;
 
 border-radius:20px;
 
-margin:25px 0;
+margin:30px 0;
 
 border-left:5px solid var(--primary);
 
@@ -285,15 +315,61 @@ margin:20px 0;
 
 }
 
-    .contact-box{
 
-margin-top:60px;
 
-padding:30px;
+
+
+/* AUTHOR */
+
+
+.author-box{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
 
 background:var(--card);
 
+padding:25px;
+
 border-radius:20px;
+
+margin:60px 0 30px;
+
+}
+
+
+
+.author-box img{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+
+
+
+
+/* REPORT FORM */
+
+
+.contact-box{
+
+background:var(--card);
+
+padding:30px;
+
+border-radius:25px;
+
+margin-top:40px;
 
 }
 
@@ -301,7 +377,6 @@ border-radius:20px;
 
 .contact-box input,
 .contact-box textarea{
-
 
 width:100%;
 
@@ -311,19 +386,19 @@ margin:10px 0;
 
 border:none;
 
-border-radius:10px;
+outline:none;
+
+border-radius:12px;
 
 background:var(--dark);
 
 color:var(--text);
-
 
 }
 
 
 
 .contact-box button{
-
 
 padding:15px 30px;
 
@@ -339,13 +414,16 @@ var(--primary),
 var(--secondary)
 );
 
-
 color:white;
 
 cursor:pointer;
 
+font-weight:600;
 
-    }
+}
+
+
+
 
 
 footer{
@@ -354,35 +432,39 @@ text-align:center;
 
 padding:30px;
 
-}color:var(--muted);
+color:var(--muted);
 
 }
 
-/* MOBILE RESPONSIVE */
+
+
+
+
+
+/* MOBILE */
+
 
 @media(max-width:768px){
 
 
-nav{
-
-    padding:15px;
-
-}
-
-
 .logo{
 
-    font-size:22px;
+font-size:22px;
 
 }
-
 
 
 .article{
 
-    margin:30px auto;
+margin:30px auto;
 
-    padding:20px;
+}
+
+
+
+.article-image{
+
+height:220px;
 
 }
 
@@ -390,7 +472,7 @@ nav{
 
 .article h1{
 
-    font-size:30px;
+font-size:30px;
 
 }
 
@@ -398,47 +480,25 @@ nav{
 
 .article h2{
 
-    font-size:24px;
+font-size:24px;
 
 }
 
 
 
-.article p{
+.author-box{
 
-    font-size:15px;
+flex-direction:column;
 
-}
-
-
-
-.box,
-.message{
-
-    padding:18px;
-
-    overflow-wrap:break-word;
+text-align:center;
 
 }
 
 
 
-.article ul{
-
-    margin-left:20px;
-
 }
 
 
-.job{
-
-    font-size:13px;
-
-
-
-
-
-}
 
 </style>
 
@@ -446,11 +506,12 @@ nav{
 </head>
 
 
+
 <body>
 
 
-<header>
 
+<header>
 
 <nav>
 
@@ -471,14 +532,28 @@ Tec <span>Faktory</span>
 
 </nav>
 
-
 </header>
 
 
 
 
 
+
+
 <main class="article">
+
+
+
+<img
+
+src="../images/employment-scam.jpg"
+
+alt="Employment Scam Awareness"
+
+class="article-image"
+
+>
+
 
 
 <h1>
@@ -498,22 +573,26 @@ Cyber Security | Tec Faktory | July 2026
 
 
 
+
+
 <div class="box warning">
 
 
 <strong>
-Educational Disclaimer:
+Educational Disclaimer
 </strong>
 
 
 <p>
 
-This article is created for educational purposes only. The goal is to help people identify and defend themselves against online scams. Tec Faktory does not support or encourage fraudulent activities.
+This article is for educational purposes only. It is created to help people recognize and defend themselves against online scams. Tec Faktory does not support or encourage fraudulent activities.
 
 </p>
 
 
 </div>
+
+
 
 
 
@@ -531,12 +610,6 @@ A recruiter posts a job advertisement for a $100/hr remote position that promise
 </p>
 
 
-<p>
-
-The process appears professional:
-
-</p>
-
 
 <ul>
 
@@ -546,7 +619,7 @@ They provide a website where you register formally.
 
 
 <li>
-They inform you that your account will be monitored because company funds may pass through it.
+They tell you your account will be monitored because company funds may pass through it.
 </li>
 
 
@@ -556,7 +629,7 @@ They request banking details.
 
 
 <li>
-They claim they need to inspect or verify your account.
+They claim they need to inspect your account.
 </li>
 
 
@@ -569,9 +642,10 @@ They claim they need to inspect or verify your account.
 
 After some time, the victim discovers unknown expenses, transfers, or loans connected to their identity.
 
-The recruiter disappears, emails stop receiving replies, and the victim is left dealing with the consequences.
+The recruiter disappears and the victim is left with the consequences.
 
 </p>
+
 
 
 
@@ -582,9 +656,10 @@ What Really Happens Behind The Scenes
 </h2>
 
 
+
 <p>
 
-The scammer creates fake job advertisements and posts them on platforms such as:
+Scammers advertise fake jobs on platforms such as:
 
 </p>
 
@@ -592,22 +667,17 @@ The scammer creates fake job advertisements and posts them on platforms such as:
 <ul>
 
 <li>Indeed</li>
-
 <li>LinkedIn Jobs</li>
-
 <li>Glassdoor</li>
-
 <li>ZipRecruiter</li>
-
 <li>Monster Jobs</li>
-
 <li>CareerBuilder</li>
-
 <li>SimplyHired</li>
-
 <li>Social media job groups</li>
 
 </ul>
+
+
 
 
 
@@ -616,8 +686,11 @@ The scammer creates fake job advertisements and posts them on platforms such as:
 
 
 <strong>
+
 WORK FROM HOME - $100/HR
+
 </strong>
+
 
 <br><br>
 
@@ -628,12 +701,14 @@ Job:
 
 Copy & Paste / Data Analyst
 
+
 <br><br>
 
 
 <strong>
 Requirements:
 </strong>
+
 
 <br>
 
@@ -645,15 +720,15 @@ Requirements:
 
 <br>
 
-- Be comfortable with smartphone/computer
+- Comfortable with smartphone/computer
 
 
 <br><br>
 
 
-Apply through:
+Apply:
 
-sample@gmail.com
+send mail to :sample@gmail.com to complete application.
 
 
 </div>
@@ -662,11 +737,13 @@ sample@gmail.com
 
 
 
+
 <p>
 
-Some scammers also use AI-generated videos, lip-sync videos, and paid advertisements to appear more legitimate and attract more victims.
+Some scammers even use AI-generated videos, lip-sync videos, and advertisements to make fake opportunities appear real.
 
 </p>
+
 
 
 
@@ -675,6 +752,7 @@ Some scammers also use AI-generated videos, lip-sync videos, and paid advertisem
 <h2>
 The Conversation
 </h2>
+
 
 
 
@@ -688,9 +766,10 @@ We hope you have reviewed and meet our requirements.
 
 
 
+
 <div class="message">
 
-Good, kindly proceed through our registration portal before any further conversation:
+Good, kindly proceed through our registration portal before further conversation:
 
 www.[companywebsite].com
 
@@ -698,13 +777,15 @@ www.[companywebsite].com
 
 
 
+
+
 <div class="message">
 
-Congratulations on your registration.
+Congratulations on your registration!
 
 Kindly wait while we verify your request.
 
-This process helps us confirm you are not a bot and that you can be trusted with company funds.
+This process helps confirm you are not a bot and can be trusted with company funds.
 
 </div>
 
@@ -718,70 +799,34 @@ The Hidden Stage
 </h2>
 
 
+
 <p>
 
-After collecting personal information, scammers may involve other criminals and prepare the next stage of the fraud.
+After collecting personal information, scammers may involve other criminals (often referred to as Loader) and prepare the next stage of the fraud.
 
-The victim believes they are progressing through employment verification, but the information provided may be used for illegal financial activities.
+The victim believes they are completing employment verification, but their information would be used to perform explicit acts without their clear knowledge.
 
 </p>
+
+
 
 
 
 
 <div class="message">
 
-
 Verification successful!
 
 <br><br>
 
-To proceed, kindly provide your bank details so we can send your starter funds.
+Kindly provide your bank details so we can send your starter funds.
 
-Up to $100,000 may be allocated for equipment and company expenses.
+please note that up to $100,000 may be allocated for equipment and company expenses (for other departments).
 
 </div>
 
-
-
-
-
-<h2>
-What Happens Next?
-</h2>
-
-
-<p>
-
-This is where victims may begin experiencing unauthorized financial activities carried out using their identity.
-
+<p> This is when the background work begins, they begin to run all forms of method getting loans etc in your name.
 </p>
-
-
-<ul>
-
-<li>
-Identity theft attempts.
-</li>
-
-
-<li>
-Unauthorized financial applications.
-</li>
-
-
-<li>
-Fraudulent transactions.
-</li>
-
-
-<li>
-Other illegal activities performed using stolen information.
-</li>
-
-
-</ul>
-
 
 
 
@@ -797,21 +842,17 @@ How To Protect Yourself
 Research companies before accepting offers.
 </li>
 
-
 <li>
 Never provide banking details to unknown recruiters.
 </li>
 
-
 <li>
-Verify job offers through official company channels.
+Verify job offers through official channels.
 </li>
 
-
 <li>
-Be careful with unrealistic salaries.
+Be careful of unrealistic salaries.
 </li>
-
 
 <li>
 Avoid pressure tactics.
@@ -824,6 +865,7 @@ Avoid pressure tactics.
 
 
 
+
 <h2>
 Final Thoughts
 </h2>
@@ -831,12 +873,11 @@ Final Thoughts
 
 <p>
 
-I hope you have learned a lot from this post and it helps you become more aware of scammers and fraudsters.
+Scammers often target people searching for better opportunities.
 
-Do not allow desperation or greed to make you ignore warning signs.
+Awareness is one of the strongest ways to protect yourself.
 
 </p>
-
 
 
 <p>
@@ -849,18 +890,61 @@ Stay protected.
 
 </p>
 
-    <section class="contact-box">
+
+
+
+
+
+
+<section class="author-box">
+
+
+<img src="../images/tec-logo.png" alt="Tec Faktory">
+
+
+<div>
+
+<h3>
+Written by Tec Faktory
+</h3>
+
+
+<p>
+
+Tec Faktory provides technology education, cybersecurity awareness, digital solutions and online safety resources.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="contact-box">
 
 
 <h2>
+
 Report A Suspicious Scam
+
 </h2>
 
 
 <p>
-Did you encounter a suspicious job offer or online activity?
-Share the details with Tec Faktory.
+
+Have you encountered a suspicious job offer or online activity? Send the details to Tec Faktory.
+
 </p>
+
 
 
 
@@ -868,7 +952,6 @@ Share the details with Tec Faktory.
 
 
 <input 
-type="text"
 id="name"
 placeholder="Your Name"
 required>
@@ -876,33 +959,48 @@ required>
 
 
 <input 
-type="email"
 id="email"
+type="email"
 placeholder="Your Email"
 required>
 
 
 
-<textarea 
+<textarea
+
 id="message"
-placeholder="Describe what happened"
+
 rows="6"
-required></textarea>
+
+placeholder="Describe what happened"
+
+required>
+
+</textarea>
 
 
 
-<button type="submit">
+<button>
+
 Send Report
+
 </button>
+
 
 
 </form>
 
 
-    </section>
+</section>
+
+
+
+
+
 
 
 </main>
+
 
 
 
@@ -917,14 +1015,22 @@ Send Report
 
 
 
+
+
+
 <script>
 
 
-const themeButton = document.getElementById("themeToggle");
+// THEME
+
+
+const themeButton =
+document.getElementById("themeToggle");
 
 
 
-let savedTheme = localStorage.getItem("theme");
+let savedTheme =
+localStorage.getItem("theme");
 
 
 
@@ -938,12 +1044,10 @@ themeButton.innerHTML="🌙";
 
 
 
-
 themeButton.onclick=()=>{
 
 
 document.body.classList.toggle("light");
-
 
 
 if(document.body.classList.contains("light")){
@@ -965,14 +1069,86 @@ themeButton.innerHTML="☀️";
 }
 
 
+};
 
-}
+
+
+
+
+
+
+// WHATSAPP REPORT
+
+
+document
+.getElementById("contactForm")
+.addEventListener("submit",(e)=>{
+
+
+e.preventDefault();
+
+
+
+let name =
+document.getElementById("name").value;
+
+
+let email =
+document.getElementById("email").value;
+
+
+let message =
+document.getElementById("message").value;
+
+
+
+let text = `
+
+🚨 Tec Faktory Scam Report
+
+
+Name:
+${name}
+
+
+Email:
+${email}
+
+
+Report:
+
+${message}
+
+`;
+
+
+
+let whatsapp =
+
+"https://wa.me/2349050322014?text="
+
++
+
+encodeURIComponent(text);
+
+
+
+window.open(
+whatsapp,
+"_blank"
+);
+
+
+
+});
 
 
 
 </script>
 
 
+
+
 </body>
 
-    </html>
+</html>
