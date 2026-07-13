@@ -7,16 +7,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
 Employment Scam Alert | Tec Faktory Blog
 </title>
 
 
-<meta name="description" content="Learn how fake recruiters use employment scams to steal identities and how to protect yourself online.">
-
-
-<link rel="stylesheet" href="../css/blog.css">
+<meta name="description" content="Learn how fake employment recruiters use online job scams to steal identities and how to protect yourself.">
 
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,93 +20,287 @@ Employment Scam Alert | Tec Faktory Blog
 
 <style>
 
-.article-page{
 
-    max-width:900px;
-    margin:80px auto;
-    padding:30px;
+*{
 
-}
-
-
-.article-page h1{
-
-    font-size:45px;
-    margin-bottom:20px;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 
 }
 
 
-.article-page h2{
 
-    text-align:left;
-    margin-top:40px;
+:root{
 
-}
+--primary:#007BFF;
+--secondary:#8A00FF;
 
+--dark:#050816;
+--card:#111827;
 
-.article-meta{
-
-    color:#38bdf8;
-    margin-bottom:30px;
-
-}
-
-
-.article-page p{
-
-    margin:20px 0;
-    color:var(--muted);
+--text:#e5e7eb;
+--muted:#94a3b8;
 
 }
 
 
-.article-page ul{
 
-    margin:20px;
+body{
+
+background:
+
+radial-gradient(circle at top right,#1e1b4b,transparent 30%),
+
+var(--dark);
+
+color:var(--text);
+
+line-height:1.8;
 
 }
 
 
-.article-page li{
 
-    margin:10px;
+body.light{
+
+--dark:#f8fafc;
+--card:#ffffff;
+--text:#111827;
+--muted:#475569;
+
+
+background:
+
+radial-gradient(circle at top right,#dbeafe,transparent 30%),
+
+var(--dark);
 
 }
+
+
+
+header{
+
+position:sticky;
+
+top:0;
+
+z-index:100;
+
+backdrop-filter:blur(15px);
+
+background:rgba(5,8,22,.8);
+
+}
+
+
+
+body.light header{
+
+background:rgba(255,255,255,.8);
+
+}
+
+
+
+nav{
+
+max-width:1100px;
+
+margin:auto;
+
+padding:20px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+
+
+.logo{
+
+font-size:28px;
+
+font-weight:800;
+
+color:white;
+
+}
+
+
+
+.logo span{
+
+background:linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+}
+
+
+
+button{
+
+border:none;
+
+padding:12px;
+
+border-radius:50%;
+
+cursor:pointer;
+
+background:var(--card);
+
+color:var(--text);
+
+font-size:20px;
+
+}
+
+
+
+.article{
+
+max-width:900px;
+
+margin:70px auto;
+
+padding:30px;
+
+}
+
+
+
+.article h1{
+
+font-size:45px;
+
+line-height:1.3;
+
+}
+
+
+
+.meta{
+
+color:#38bdf8;
+
+margin:20px 0;
+
+}
+
+
+
+.article h2{
+
+margin-top:45px;
+
+margin-bottom:15px;
+
+text-align:left;
+
+}
+
+
+
+.article p{
+
+margin:20px 0;
+
+color:var(--muted);
+
+}
+
+
+
+.article ul{
+
+margin-left:30px;
+
+}
+
+
+
+.article li{
+
+margin:10px;
+
+}
+
+
+
+.box{
+
+background:var(--card);
+
+padding:25px;
+
+border-radius:20px;
+
+margin:25px 0;
+
+border-left:5px solid var(--primary);
+
+}
+
 
 
 .warning{
 
-    background:rgba(255,0,0,.1);
-    padding:20px;
-    border-left:5px solid red;
-    border-radius:10px;
+border-left-color:red;
 
 }
 
 
-.scam-message{
 
-    background:var(--card);
-    padding:20px;
-    border-radius:15px;
-    margin:20px 0;
-    border-left:4px solid #007BFF;
+.job{
+
+font-family:monospace;
 
 }
 
 
-.back{
 
-    display:inline-block;
-    margin-top:40px;
-    color:#38bdf8;
-    text-decoration:none;
+.message{
+
+background:rgba(0,123,255,.15);
+
+padding:20px;
+
+border-radius:15px;
+
+margin:20px 0;
 
 }
+
+
+
+footer{
+
+text-align:center;
+
+padding:30px;
+
+color:var(--muted);
+
+}
+
 
 
 </style>
+
 
 </head>
 
@@ -118,10 +308,10 @@ Employment Scam Alert | Tec Faktory Blog
 <body>
 
 
-
 <header>
 
-<nav class="navbar">
+
+<nav>
 
 
 <div class="logo">
@@ -131,15 +321,15 @@ Tec <span>Faktory</span>
 </div>
 
 
+<button id="themeToggle">
 
-<a href="../index.html" class="button">
+☀️
 
-Home
-
-</a>
+</button>
 
 
 </nav>
+
 
 </header>
 
@@ -147,18 +337,18 @@ Home
 
 
 
-<main class="article-page">
+<main class="article">
 
 
 <h1>
 
-Employment Scam Alert: How Fake Recruiters Can Steal Your Identity
+Employment/Enrollment Update: How Fake Recruiters Steal Identities
 
 </h1>
 
 
 
-<div class="article-meta">
+<div class="meta">
 
 Cyber Security | Tec Faktory | July 2026
 
@@ -167,13 +357,20 @@ Cyber Security | Tec Faktory | July 2026
 
 
 
-<div class="warning">
+<div class="box warning">
 
-<strong>Disclaimer:</strong>
 
-<br><br>
+<strong>
+Educational Disclaimer:
+</strong>
 
-This article is for educational and awareness purposes only. It is created to help people recognize and avoid online employment scams. Tec Faktory does not support or encourage illegal activities.
+
+<p>
+
+This article is created for educational purposes only. The goal is to help people identify and defend themselves against online scams. Tec Faktory does not support or encourage fraudulent activities.
+
+</p>
+
 
 </div>
 
@@ -188,37 +385,39 @@ The Scenario
 
 <p>
 
-Imagine seeing a job advertisement promising <strong>$100 per hour</strong> for simple tasks such as copying and pasting information. The recruiter claims it is an easy remote job that could change your life.
+A recruiter posts a job advertisement for a $100/hr remote position that promises to improve your life by simply copying and pasting information.
 
 </p>
-
 
 
 <p>
 
-The process usually looks convincing:
+The process appears professional:
 
 </p>
-
 
 
 <ul>
 
 <li>
-You are given a website where you are asked to register.
+They provide a website where you register formally.
 </li>
 
-<li>
-The recruiter tells you your account will be monitored because company funds may pass through it.
-</li>
 
 <li>
-You are asked to provide your banking details.
+They inform you that your account will be monitored because company funds may pass through it.
 </li>
 
+
 <li>
-They claim your account is being verified.
+They request banking details.
 </li>
+
+
+<li>
+They claim they need to inspect or verify your account.
+</li>
+
 
 </ul>
 
@@ -227,9 +426,9 @@ They claim your account is being verified.
 
 <p>
 
-After some time, victims may discover unauthorized transactions, unexpected expenses, or financial activities they never approved.
+After some time, the victim discovers unknown expenses, transfers, or loans connected to their identity.
 
-The recruiter disappears, emails stop working, and the victim is left dealing with the consequences.
+The recruiter disappears, emails stop receiving replies, and the victim is left dealing with the consequences.
 
 </p>
 
@@ -244,10 +443,9 @@ What Really Happens Behind The Scenes
 
 <p>
 
-Scammers often advertise fake jobs on job platforms and social media groups.
+The scammer creates fake job advertisements and posts them on platforms such as:
 
 </p>
-
 
 
 <ul>
@@ -260,39 +458,34 @@ Scammers often advertise fake jobs on job platforms and social media groups.
 
 <li>ZipRecruiter</li>
 
-<li>Facebook job groups</li>
+<li>Monster Jobs</li>
 
-<li>WhatsApp and Telegram groups</li>
+<li>CareerBuilder</li>
+
+<li>SimplyHired</li>
+
+<li>Social media job groups</li>
 
 </ul>
 
 
 
 
-<p>
-
-A fake job post may look like this:
-
-</p>
-
-
-
-
-<div class="scam-message">
+<div class="box job">
 
 
 <strong>
-Work From Home - Earn $100/Hour
+WORK FROM HOME - $100/HR
 </strong>
 
 <br><br>
 
 
 <strong>
-Position:
+Job:
 </strong>
 
-Copy & Paste, Data Entry, Data Analyst
+Copy & Paste / Data Analyst
 
 <br><br>
 
@@ -303,16 +496,74 @@ Requirements:
 
 <br>
 
-- Good English communication
+- Live in USA
 
 <br>
 
-- Smartphone or computer access
+- Speak good English
 
 <br>
 
-- Ability to work remotely
+- Be comfortable with smartphone/computer
 
+
+<br><br>
+
+
+Apply through:
+
+sample@gmail.com
+
+
+</div>
+
+
+
+
+
+<p>
+
+Some scammers also use AI-generated videos, lip-sync videos, and paid advertisements to appear more legitimate and attract more victims.
+
+</p>
+
+
+
+
+
+<h2>
+The Conversation
+</h2>
+
+
+
+<div class="message">
+
+Hi, welcome to {company name} recruitment portal.
+
+We hope you have reviewed and meet our requirements.
+
+</div>
+
+
+
+<div class="message">
+
+Good, kindly proceed through our registration portal before any further conversation:
+
+www.[companywebsite].com
+
+</div>
+
+
+
+<div class="message">
+
+Congratulations on your registration.
+
+Kindly wait while we verify your request.
+
+This process helps us confirm you are not a bot and that you can be trusted with company funds.
 
 </div>
 
@@ -322,42 +573,31 @@ Requirements:
 
 
 <h2>
-The Conversation Usually Starts Like This
+The Hidden Stage
 </h2>
 
 
+<p>
 
-<div class="scam-message">
+After collecting personal information, scammers may involve other criminals and prepare the next stage of the fraud.
 
+The victim believes they are progressing through employment verification, but the information provided may be used for illegal financial activities.
 
-Hi, welcome to our recruitment portal.
-
-We hope you meet all our requirements for this position.
-
-
-</div>
+</p>
 
 
 
-<div class="scam-message">
+
+<div class="message">
 
 
-Kindly complete your registration on our company portal before we proceed.
+Verification successful!
 
+<br><br>
 
-</div>
+To proceed, kindly provide your bank details so we can send your starter funds.
 
-
-
-<div class="scam-message">
-
-
-Congratulations!
-
-Your registration has been received.
-
-Please wait while we verify your account to ensure you can be trusted with company funds.
-
+Up to $100,000 may be allocated for equipment and company expenses.
 
 </div>
 
@@ -366,47 +606,40 @@ Please wait while we verify your account to ensure you can be trusted with compa
 
 
 <h2>
-Why They Ask For Your Bank Details
+What Happens Next?
 </h2>
 
 
 <p>
 
-The explanation may sound professional, but legitimate employers rarely request sensitive financial information before completing a proper hiring process.
+This is where victims may begin experiencing unauthorized financial activities carried out using their identity.
 
 </p>
-
-
-
-
-<p>
-
-Scammers may attempt to:
-
-</p>
-
 
 
 <ul>
 
 <li>
-Steal personal information.
+Identity theft attempts.
 </li>
 
-<li>
-Commit identity fraud.
-</li>
 
 <li>
-Apply for loans using stolen information.
+Unauthorized financial applications.
 </li>
 
+
 <li>
-Use accounts for illegal financial activities.
+Fraudulent transactions.
 </li>
+
+
+<li>
+Other illegal activities performed using stolen information.
+</li>
+
 
 </ul>
-
 
 
 
@@ -417,31 +650,34 @@ How To Protect Yourself
 </h2>
 
 
-
 <ul>
 
 <li>
-Research the company before accepting any offer.
+Research companies before accepting offers.
 </li>
 
-<li>
-Visit official websites independently.
-</li>
 
 <li>
-Verify recruiters through official channels.
+Never provide banking details to unknown recruiters.
 </li>
 
-<li>
-Never share banking details with unknown employers.
-</li>
 
 <li>
-Be careful of offers that seem too good to be true.
+Verify job offers through official company channels.
 </li>
+
+
+<li>
+Be careful with unrealistic salaries.
+</li>
+
+
+<li>
+Avoid pressure tactics.
+</li>
+
 
 </ul>
-
 
 
 
@@ -452,37 +688,25 @@ Final Thoughts
 </h2>
 
 
-
 <p>
 
-Scammers often target people searching for better opportunities. Awareness is one of the strongest ways to protect yourself.
+I hope you have learned a lot from this post and it helps you become more aware of scammers and fraudsters.
 
-</p>
-
-
-<p>
-
-Before trusting any online opportunity, take time to verify it. A few minutes of research can save you from serious financial problems.
+Do not allow desperation or greed to make you ignore warning signs.
 
 </p>
 
 
 
-
 <p>
 
-Stay informed. Stay secure. Stay protected.
+Stay informed.
+
+Stay secure.
+
+Stay protected.
 
 </p>
-
-
-
-
-<a class="back" href="../index.html">
-
-← Back To Tec Faktory Blog
-
-</a>
 
 
 
@@ -491,8 +715,72 @@ Stay informed. Stay secure. Stay protected.
 
 
 
+<footer>
+
+© 2026 Tec Faktory. All Rights Reserved.
+
+</footer>
+
+
+
+
+
+<script>
+
+
+const themeButton = document.getElementById("themeToggle");
+
+
+
+let savedTheme = localStorage.getItem("theme");
+
+
+
+if(savedTheme==="light"){
+
+document.body.classList.add("light");
+
+themeButton.innerHTML="🌙";
+
+}
+
+
+
+
+themeButton.onclick=()=>{
+
+
+document.body.classList.toggle("light");
+
+
+
+if(document.body.classList.contains("light")){
+
+
+localStorage.setItem("theme","light");
+
+themeButton.innerHTML="🌙";
+
+
+}else{
+
+
+localStorage.setItem("theme","dark");
+
+themeButton.innerHTML="☀️";
+
+
+}
+
+
+
+}
+
+
+
+</script>
 
 
 </body>
 
-</html>
+    </html>
