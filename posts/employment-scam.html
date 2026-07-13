@@ -190,7 +190,9 @@ padding:20px;
 
 }
 
-
+.article-content {
+    user-select:none;
+}
 
 .article-image{
 
@@ -422,7 +424,40 @@ font-weight:600;
 
 }
 
+.share-box{
 
+background:var(--card);
+
+padding:20px;
+
+border-radius:20px;
+
+margin:30px 0;
+
+}
+
+
+.share-box button{
+
+padding:10px 20px;
+
+margin:5px;
+
+border:none;
+
+border-radius:30px;
+
+cursor:pointer;
+
+background:linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+color:white;
+
+  }
 
 
 
@@ -1156,7 +1191,23 @@ Stay protected.
 </p>
 
 
+<div class="share-box">
 
+<h3>Share this article</h3>
+
+<button onclick="shareWhatsApp()">
+WhatsApp
+</button>
+
+<button onclick="shareTwitter()">
+X / Twitter
+</button>
+
+<button onclick="copyLink()">
+Copy Link
+</button>
+
+</div>
 
 
 
@@ -1411,8 +1462,63 @@ whatsapp,
 
 });
 
+document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+});
 
 
+  function shareWhatsApp(){
+
+let url = window.location.href;
+
+let text =
+"Read this Tec Faktory cybersecurity article: "
++ url;
+
+
+window.open(
+"https://wa.me/?text="
++ encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+
+
+function shareTwitter(){
+
+let url = window.location.href;
+
+
+window.open(
+
+"https://twitter.com/intent/tweet?text="
++
+encodeURIComponent(url),
+
+"_blank"
+
+);
+
+}
+
+
+
+
+function copyLink(){
+
+navigator.clipboard.writeText(
+window.location.href
+);
+
+
+alert(
+"Article link copied!"
+);
+
+  }
+  
 </script>
 
 
