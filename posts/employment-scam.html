@@ -285,6 +285,67 @@ margin:20px 0;
 
 }
 
+    .contact-box{
+
+margin-top:60px;
+
+padding:30px;
+
+background:var(--card);
+
+border-radius:20px;
+
+}
+
+
+
+.contact-box input,
+.contact-box textarea{
+
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+border:none;
+
+border-radius:10px;
+
+background:var(--dark);
+
+color:var(--text);
+
+
+}
+
+
+
+.contact-box button{
+
+
+padding:15px 30px;
+
+border:none;
+
+border-radius:30px;
+
+background:
+
+linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+
+color:white;
+
+cursor:pointer;
+
+
+    }
 
 
 footer{
@@ -293,11 +354,91 @@ text-align:center;
 
 padding:30px;
 
-color:var(--muted);
+}color:var(--muted);
+
+}
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
+
+
+nav{
+
+    padding:15px;
 
 }
 
 
+.logo{
+
+    font-size:22px;
+
+}
+
+
+
+.article{
+
+    margin:30px auto;
+
+    padding:20px;
+
+}
+
+
+
+.article h1{
+
+    font-size:30px;
+
+}
+
+
+
+.article h2{
+
+    font-size:24px;
+
+}
+
+
+
+.article p{
+
+    font-size:15px;
+
+}
+
+
+
+.box,
+.message{
+
+    padding:18px;
+
+    overflow-wrap:break-word;
+
+}
+
+
+
+.article ul{
+
+    margin-left:20px;
+
+}
+
+
+.job{
+
+    font-size:13px;
+
+
+
+
+
+}
 
 </style>
 
@@ -708,6 +849,57 @@ Stay protected.
 
 </p>
 
+    <section class="contact-box">
+
+
+<h2>
+Report A Suspicious Scam
+</h2>
+
+
+<p>
+Did you encounter a suspicious job offer or online activity?
+Share the details with Tec Faktory.
+</p>
+
+
+
+<form id="contactForm">
+
+
+<input 
+type="text"
+id="name"
+placeholder="Your Name"
+required>
+
+
+
+<input 
+type="email"
+id="email"
+placeholder="Your Email"
+required>
+
+
+
+<textarea 
+id="message"
+placeholder="Describe what happened"
+rows="6"
+required></textarea>
+
+
+
+<button type="submit">
+Send Report
+</button>
+
+
+</form>
+
+
+    </section>
 
 
 </main>
