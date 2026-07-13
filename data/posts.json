@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "Employment Scams: How Fake Recruiters Steal Your Identity",
+    "category": "Cyber Security",
+    "description": "Learn how fake recruiters use attractive job offers to steal personal information, banking details and identities.",
+    "image": "🔒",
+    "date": "13 July 2026",
+    "author": "Tec Faktory",
+    "featured": true,
+    "link": "posts/employment-scam.html"
+  },
+  {
+    "id": 2,
+    "title": "10 Ways To Make Your Laptop Faster",
+    "category": "Tech Tips",
+    "description": "Simple maintenance tips to improve your laptop's speed and overall performance.",
+    "image": "💻",
+    "date": "12 July 2026",
+    "author": "Tec Faktory",
+    "featured": false,
+    "link": "posts/laptop-faster.html"
+  },
+  {
+    "id": 3,
+    "title": "How Artificial Intelligence Is Changing Everyday Life",
+    "category": "Artificial Intelligence",
+    "description": "Discover how AI is transforming education, business, healthcare and personal productivity.",
+    "image": "🤖",
+    "date": "11 July 2026",
+    "author": "Tec Faktory",
+    "featured": false,
+    "link": "posts/ai-changing-life.html"
+  },
+  {
+    "id": 4,
+    "title": "5 Signs a Website Is Fake",
+    "category": "Scam Awareness",
+    "description": "Learn how to identify phishing websites before entering your personal information.",
+    "image": "⚠️",
+    "date": "10 July 2026",
+    "author": "Tec Faktory",
+    "featured": false,
+    "link": "posts/fake-websites.html"
+  },
+  {
+    "id": 5,
+    "title": "Why Every Business Needs a Professional Website",
+    "category": "Tech Tips",
+    "description": "Explore how a modern website helps businesses build trust, attract customers and increase sales.",
+    "image": "🌐",
+    "date": "9 July 2026",
+    "author": "Tec Faktory",
+    "featured": false,
+    "link": "posts/business-website.html"
+  },
+  {
+    "id": 6,
+    "title": "Protecting Your WhatsApp Account From Hackers",
+    "category": "Cyber Security",
+    "description": "Essential security settings and habits to keep your WhatsApp account safe.",
+    "image": "🛡️",
+    "date": "8 July 2026",
+    "author": "Tec Faktory",
+    "featured": false,
+    "link": "posts/whatsapp-security.html"
+  }
+]
