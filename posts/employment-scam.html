@@ -436,27 +436,190 @@ color:var(--muted);
 
 }
 
+.back-home{
 
+max-width:900px;
+
+margin:20px auto;
+
+padding:20px;
+
+}
+
+
+.back-home a{
+
+color:#38bdf8;
+
+text-decoration:none;
+
+font-weight:600;
+
+  }
 
 
 
 
 /* MOBILE */
+/* ===========================
+   RESPONSIVE IMPROVEMENTS
+=========================== */
 
 
-@media(max-width:768px){
+img{
 
+max-width:100%;
 
-.logo{
-
-font-size:22px;
+display:block;
 
 }
 
 
+
+html{
+
+overflow-x:hidden;
+
+}
+
+
+
+body{
+
+overflow-x:hidden;
+
+}
+
+
+
 .article{
 
-margin:30px auto;
+width:100%;
+
+}
+
+
+
+
+.box,
+.message,
+.job{
+
+word-wrap:break-word;
+
+overflow-wrap:anywhere;
+
+}
+
+
+
+.contact-box{
+
+width:100%;
+
+}
+
+
+
+.contact-box input,
+.contact-box textarea{
+
+font-size:16px;
+
+}
+
+
+
+button{
+
+flex-shrink:0;
+
+}
+
+
+
+/* TABLET */
+
+@media(max-width:900px){
+
+
+.article{
+
+max-width:95%;
+
+margin:40px auto;
+
+padding:15px;
+
+}
+
+
+.article h1{
+
+font-size:38px;
+
+}
+
+
+.article-image{
+
+height:350px;
+
+}
+
+
+nav{
+
+padding:15px 20px;
+
+}
+
+
+}
+
+
+
+
+
+/* PHONE */
+
+@media(max-width:600px){
+
+
+
+nav{
+
+padding:15px;
+
+}
+
+
+
+.logo{
+
+font-size:21px;
+
+}
+
+
+
+#themeToggle{
+
+width:40px;
+
+height:40px;
+
+font-size:18px;
+
+}
+
+
+
+.article{
+
+margin:25px auto;
+
+padding:10px;
 
 }
 
@@ -464,7 +627,9 @@ margin:30px auto;
 
 .article-image{
 
-height:220px;
+height:200px;
+
+border-radius:15px;
 
 }
 
@@ -472,7 +637,9 @@ height:220px;
 
 .article h1{
 
-font-size:30px;
+font-size:28px;
+
+line-height:1.4;
 
 }
 
@@ -480,7 +647,65 @@ font-size:30px;
 
 .article h2{
 
-font-size:24px;
+font-size:22px;
+
+margin-top:35px;
+
+}
+
+
+
+.article p{
+
+font-size:15px;
+
+line-height:1.7;
+
+}
+
+
+
+.article ul{
+
+margin-left:20px;
+
+}
+
+
+
+.article li{
+
+font-size:15px;
+
+}
+
+
+
+.box{
+
+padding:18px;
+
+border-radius:15px;
+
+}
+
+
+
+.message{
+
+padding:15px;
+
+font-size:14px;
+
+}
+
+
+
+.job{
+
+font-size:13px;
+
+padding:18px;
 
 }
 
@@ -488,17 +713,57 @@ font-size:24px;
 
 .author-box{
 
-flex-direction:column;
+padding:20px;
 
-text-align:center;
+}
+
+
+
+.author-box img{
+
+width:75px;
+
+height:75px;
+
+}
+
+
+
+.contact-box{
+
+padding:20px;
+
+}
+
+
+
+.contact-box h2{
+
+font-size:22px;
+
+}
+
+
+
+.contact-box button{
+
+width:100%;
+
+}
+
+
+
+footer{
+
+font-size:14px;
+
+padding:20px;
 
 }
 
 
 
 }
-
-
 
 </style>
 
@@ -1001,9 +1266,13 @@ Send Report
 
 </main>
 
+<div class="back-home">
 
-<a href="../index.html">Back to home</a>
+<a href="../index.html">
+← Back to Tec Faktory Blog
+</a>
 
+</div>
 
 <footer>
 
