@@ -1,0 +1,1008 @@
+/* =========================
+   TEC FAKTORY BLOG CSS
+========================= */
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+
+
+:root{
+
+    --primary:#007BFF;
+    --secondary:#8A00FF;
+
+    --dark:#050816;
+
+    --card:#111827;
+
+    --text:#e5e7eb;
+
+    --muted:#94a3b8;
+
+}
+
+
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+
+
+body{
+
+    background:
+
+    radial-gradient(
+    circle at top right,
+    #1e1b4b,
+    transparent 30%
+    ),
+
+    var(--dark);
+
+
+    color:var(--text);
+
+    line-height:1.7;
+
+    transition:.3s;
+
+}
+
+
+
+
+
+/* =========================
+NAVBAR
+========================= */
+
+
+header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    backdrop-filter:blur(15px);
+
+    background:
+    rgba(5,8,22,.75);
+
+}
+
+
+
+.navbar{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+.logo{
+
+    font-size:28px;
+
+    font-weight:800;
+
+    color:white;
+
+}
+
+
+
+.logo span{
+
+    background:
+
+    linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+    );
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+}
+
+
+
+.navbar ul{
+
+    display:flex;
+
+    gap:30px;
+
+    list-style:none;
+
+}
+
+
+
+.navbar a{
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+
+
+.navbar a:hover{
+
+    color:#38bdf8;
+
+}
+
+
+
+.nav-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+}
+
+
+
+.button,
+.newsletter button{
+
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    border:none;
+
+    cursor:pointer;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+
+    background:
+
+    linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+    );
+
+
+}
+
+
+
+#themeToggle{
+
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:none;
+
+    cursor:pointer;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:20px;
+
+}
+
+
+
+
+
+
+
+/* =========================
+HERO
+========================= */
+
+
+.hero{
+
+    max-width:1200px;
+
+    margin:80px auto;
+
+    padding:30px;
+
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:50px;
+
+    align-items:center;
+
+}
+
+
+
+.badge{
+
+
+    display:inline-block;
+
+    padding:8px 18px;
+
+    border-radius:20px;
+
+
+    background:
+    rgba(0,123,255,.15);
+
+
+    color:#38bdf8;
+
+
+    font-size:13px;
+
+}
+
+
+
+.hero h1{
+
+
+    font-size:55px;
+
+    line-height:1.2;
+
+    margin:20px 0;
+
+}
+
+
+
+.hero p{
+
+    color:var(--muted);
+
+}
+
+
+
+.btn{
+
+
+    display:inline-block;
+
+    margin-top:30px;
+
+
+    padding:15px 35px;
+
+
+    border-radius:30px;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    background:
+
+    linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+    );
+
+
+}
+
+
+
+
+
+.hero-image{
+
+
+    display:flex;
+
+    justify-content:center;
+
+
+}
+
+
+
+.glass-card{
+
+
+    width:320px;
+
+    padding:35px;
+
+    border-radius:25px;
+
+
+    background:
+    rgba(255,255,255,.08);
+
+
+    backdrop-filter:blur(20px);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.1);
+
+
+    animation:float 4s infinite;
+
+}
+
+
+
+.glass-card span{
+
+
+    color:#38bdf8;
+
+    display:block;
+
+    margin-top:20px;
+
+}
+
+
+
+@keyframes float{
+
+    50%{
+
+        transform:translateY(-15px);
+
+    }
+
+}
+
+
+
+
+
+
+/* =========================
+SECTIONS
+========================= */
+
+
+.categories,
+.articles,
+.featured{
+
+
+    max-width:1200px;
+
+    margin:80px auto;
+
+    padding:20px;
+
+}
+
+
+
+h2{
+
+
+    text-align:center;
+
+    font-size:35px;
+
+    margin-bottom:40px;
+
+
+}
+
+
+
+
+
+
+/* =========================
+FEATURED
+========================= */
+
+
+.featured-card{
+
+
+    padding:40px;
+
+    border-radius:25px;
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #007BFF,
+    #8A00FF
+    );
+
+
+    color:white;
+
+}
+
+
+
+.featured-card a{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+
+
+/* =========================
+CATEGORIES
+========================= */
+
+
+.category-grid{
+
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+
+
+.category-grid div{
+
+
+    background:var(--card);
+
+
+    padding:30px;
+
+
+    border-radius:20px;
+
+
+    text-align:center;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.category-grid div:hover{
+
+
+    transform:translateY(-10px);
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+SEARCH
+========================= */
+
+
+.search-box{
+
+
+    max-width:600px;
+
+    margin:40px auto;
+
+}
+
+
+
+.search-box input{
+
+
+    width:100%;
+
+
+    padding:18px 25px;
+
+
+    border-radius:50px;
+
+
+    border:none;
+
+
+    outline:none;
+
+
+    background:var(--card);
+
+
+    color:var(--text);
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+FILTER BUTTONS
+========================= */
+
+
+.category-filter{
+
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.filter-btn{
+
+
+    padding:10px 22px;
+
+
+    border-radius:30px;
+
+
+    border:none;
+
+
+    cursor:pointer;
+
+
+    background:var(--card);
+
+
+    color:var(--text);
+
+
+}
+
+
+
+.filter-btn.active{
+
+
+    background:
+
+    linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+    );
+
+
+    color:white;
+
+}
+
+
+
+
+
+
+
+/* =========================
+ARTICLES
+========================= */
+
+
+.article-grid{
+
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+
+}
+
+
+
+article{
+
+
+    background:var(--card);
+
+
+    border-radius:20px;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.image{
+
+
+    height:180px;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    font-size:30px;
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #007BFF,
+    #8A00FF
+    );
+
+
+}
+
+
+
+.content{
+
+
+    padding:25px;
+
+}
+
+
+
+.content span{
+
+
+    color:#38bdf8;
+
+}
+
+
+
+.content p{
+
+    color:var(--muted);
+
+}
+
+
+
+.content a{
+
+    color:#38bdf8;
+
+    text-decoration:none;
+
+}
+
+
+
+
+
+
+/* =========================
+PAGINATION
+========================= */
+
+
+.pagination{
+
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin:40px;
+
+
+}
+
+
+
+.pagination button{
+
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+
+}
+
+
+
+.pagination button.active{
+
+
+    background:
+
+    linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary)
+    );
+
+
+    color:white;
+
+}
+
+
+
+
+
+
+
+/* =========================
+NEWSLETTER
+========================= */
+
+
+.newsletter{
+
+
+    max-width:900px;
+
+    margin:100px auto;
+
+
+    text-align:center;
+
+
+    padding:50px;
+
+
+    border-radius:30px;
+
+
+    background:var(--card);
+
+
+}
+
+
+
+.newsletter input{
+
+
+    padding:15px;
+
+
+    width:350px;
+
+
+    border-radius:30px;
+
+
+    border:none;
+
+
+    outline:none;
+
+
+}
+
+
+
+
+
+
+/* =========================
+LIGHT MODE
+========================= */
+
+
+body.light{
+
+
+    --dark:#f8fafc;
+
+    --card:#ffffff;
+
+    --text:#111827;
+
+    --muted:#475569;
+
+
+}
+
+
+
+
+
+body.light header{
+
+
+    background:
+
+    rgba(255,255,255,.8);
+
+
+}
+
+
+
+
+
+
+footer{
+
+
+    text-align:center;
+
+    padding:30px;
+
+    color:var(--muted);
+
+}
+
+
+
+
+
+
+/* =========================
+MOBILE
+========================= */
+
+
+@media(max-width:900px){
+
+
+.navbar ul{
+
+    display:none;
+
+}
+
+
+
+.hero{
+
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+
+
+}
+
+
+
+.hero h1{
+
+    font-size:40px;
+
+}
+
+
+
+.category-grid{
+
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+
+
+.article-grid{
+
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+.newsletter input{
+
+
+    width:100%;
+
+}
+
+
+  }
