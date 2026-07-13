@@ -245,10 +245,9 @@ articleContainer.innerHTML += `
 <article>
 
 
-
 <div class="image">
 
-${post.image}
+    <img src="${post.image}" alt="${post.title}">
 
 </div>
 
