@@ -1,4 +1,4 @@
-// GET ARTICLE ID FROM URL
+// GET POST ID
 
 const params = new URLSearchParams(
 window.location.search
@@ -6,7 +6,6 @@ window.location.search
 
 
 const postId = params.get("id");
-
 
 
 
@@ -30,9 +29,7 @@ document.getElementById("postContent");
 
 
 
-
-// LOAD ARTICLE
-
+// LOAD POST
 
 async function loadPost(){
 
@@ -40,9 +37,10 @@ async function loadPost(){
 try{
 
 
+// GET JSON
+
 const response =
 await fetch("data/posts.json");
-
 
 
 const posts =
@@ -51,11 +49,12 @@ await response.json();
 
 
 
+// FIND POST
+
 const post =
 posts.find(
 item => item.id == postId
 );
-
 
 
 
@@ -68,7 +67,7 @@ title.innerHTML =
 
 
 content.innerHTML =
-"<p>The article you requested does not exist.</p>";
+"<p>This article does not exist.</p>";
 
 
 return;
@@ -79,16 +78,11 @@ return;
 
 
 
-
-
-
-// DISPLAY DATA
-
+// BASIC DETAILS
 
 
 document.title =
 post.title + " | Tec Faktory Blog";
-
 
 
 
@@ -101,7 +95,6 @@ image.src =
 post.image;
 
 
-
 image.alt =
 post.title;
 
@@ -110,65 +103,43 @@ post.title;
 meta.innerHTML = `
 
 ${post.category}
+
 |
+
 ${post.author}
+
 |
+
 ${post.date}
 
-`;
+|
 
-
-
-
-// ARTICLE CONTENT
-
-
-content.innerHTML = `
-
-
-<p>
-
-${post.description}
-
-</p>
-
-
-<h2>
-
-Introduction
-
-</h2>
-
-
-<p>
-
-${post.description}
-
-Tec Faktory provides educational content to help readers understand technology, cybersecurity and digital safety.
-
-</p>
-
-
-
-<h2>
-
-Full Article
-
-</h2>
-
-
-
-<p>
-
-This article is currently being prepared.
-
-More detailed information will be added soon.
-
-</p>
-
-
+${post.readingTime}
 
 `;
+
+
+
+
+
+
+// LOAD ARTICLE HTML
+
+
+const articleResponse =
+
+await fetch(post.content);
+
+
+
+const articleHTML =
+
+await articleResponse.text();
+
+
+
+
+content.innerHTML = articleHTML;
 
 
 
@@ -181,20 +152,27 @@ catch(error){
 
 
 console.log(
-"Error loading article:",
 error
 );
 
 
 content.innerHTML =
-"Unable to load article.";
+
+`
+
+<p>
+Unable to load article content.
+</p>
+
+`;
+
+
 
 }
 
 
 
 }
-
 
 
 
