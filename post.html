@@ -100,7 +100,7 @@ f.parentNode.insertBefore(j,f);
 
 
 <body>
-
+<div id="readingProgress"></div>
 
 <!-- HEADER -->
 
@@ -138,7 +138,73 @@ Tec <span>Faktory</span>
 
 </header>
 
+<!--Reading Mode pop-up-->
 
+  
+<div id="musicModal" class="music-modal">
+
+<div class="music-card">
+
+<h2>
+🎧 Tec Faktory Reading Mode
+</h2>
+
+
+<p>
+Would you like background sound while reading?
+</p>
+
+
+<div class="music-actions">
+
+<button id="enableMusic">
+Yes, choose sound
+</button>
+
+
+<button id="skipMusic">
+No, continue reading
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- MUSIC PLAYER -->
+
+<div id="musicPlayer" class="music-player">
+
+
+<strong>
+🎧 Reading Mode
+</strong>
+
+
+<p id="currentTrack">
+No sound selected
+</p>
+
+
+<button id="pauseMusic">
+⏸ Pause
+</button>
+
+
+<button id="closeMusic">
+✕
+</button>
+
+
+</div>
+  
 
 
 
@@ -149,6 +215,10 @@ Tec <span>Faktory</span>
 
 <section class="article-header">
 
+  <div id="translateBox"></div>
+  <button id="listenArticle">
+🔊 Listen Article
+  </button>
 <span id="postCategory" class="category-badge">
 
 Category
@@ -234,70 +304,6 @@ Send the details to Tec Faktory.
 </p>
 
 <!-- READING MODE POPUP -->
-
-<div id="musicModal" class="music-modal">
-
-<div class="music-card">
-
-<h2>
-🎧 Tec Faktory Reading Mode
-</h2>
-
-
-<p>
-Would you like background sound while reading?
-</p>
-
-
-<div class="music-actions">
-
-<button id="enableMusic">
-Yes, choose sound
-</button>
-
-
-<button id="skipMusic">
-No, continue reading
-</button>
-
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
-
-<!-- MUSIC PLAYER -->
-
-<div id="musicPlayer" class="music-player">
-
-
-<strong>
-🎧 Reading Mode
-</strong>
-
-
-<p id="currentTrack">
-No sound selected
-</p>
-
-
-<button id="pauseMusic">
-⏸ Pause
-</button>
-
-
-<button id="closeMusic">
-✕
-</button>
-
-
-</div>
 
 
 <form id="contactForm">
@@ -480,7 +486,13 @@ Share
 <script src="js/post.js"></script>
 
 
+<a 
+id="whatsappFloat"
+target="_blank">
 
+💬
+
+</a>
 </body>
 
 
