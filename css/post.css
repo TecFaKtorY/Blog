@@ -354,7 +354,7 @@ animation:
 
 fadeUp 1s ease;
 
-
+padding: 10px;
 }
 
 
@@ -423,7 +423,7 @@ var(--secondary)
 
 
 color:var(--muted);
-
+padding: 5px;
 
 margin:25px 0;
 
