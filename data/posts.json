@@ -76,5 +76,18 @@
     "readingTime": "5 min read",
     "featured": false,
     "content": "posts/whatsapp-security.html"
+  },
+  {
+  "id": 7,
+  "title": "The Cursed Trinity: How HTML, CSS, and JavaScript Can Become a Security Risk",
+  "slug": "cursed-trinity-web-attacks",
+  "category": "Cyber Security",
+  "description": "Discover how common web technologies like HTML, CSS and JavaScript can become security risks through vulnerabilities such as XSS, clickjacking, DOM manipulation and CSS injection.",
+  "image": "images/cursed-trinity.png",
+  "date": "14 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "10 min read",
+  "featured": false,
+  "content": "posts/cursed-trinity-web-attacks.html"
   }
 ]
