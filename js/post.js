@@ -1,7 +1,12 @@
-// GET POST ID
+// ===============================
+// TEC FAKTORY SINGLE POST LOADER
+// ===============================
+
+
+// GET POST ID FROM URL
 
 const params = new URLSearchParams(
-window.location.search
+    window.location.search
 );
 
 
@@ -29,7 +34,9 @@ document.getElementById("postContent");
 
 
 
-// LOAD POST
+
+// LOAD ARTICLE
+
 
 async function loadPost(){
 
@@ -37,10 +44,34 @@ async function loadPost(){
 try{
 
 
-// GET JSON
+if(!postId){
 
-const response =
-await fetch("data/posts.json");
+throw new Error(
+"No article ID provided"
+);
+
+}
+
+
+
+
+
+// LOAD POSTS JSON
+
+const response = await fetch(
+"data/posts.json"
+);
+
+
+
+if(!response.ok){
+
+throw new Error(
+"Unable to load posts.json"
+);
+
+}
+
 
 
 const posts =
@@ -49,12 +80,15 @@ await response.json();
 
 
 
-// FIND POST
+
+// FIND CURRENT ARTICLE
+
 
 const post =
 posts.find(
 item => item.id == postId
 );
+
 
 
 
@@ -67,28 +101,38 @@ title.innerHTML =
 
 
 content.innerHTML =
-"<p>This article does not exist.</p>";
+`
 
+<p>
+The article you requested does not exist.
+</p>
+
+<a href="index.html">
+← Back To Home
+</a>
+
+`;
 
 return;
-
 
 }
 
 
 
 
-// BASIC DETAILS
+
+
+// UPDATE PAGE TITLE
 
 
 document.title =
-post.title + " | Tec Faktory Blog";
+`${post.title} | Tec Faktory`;
 
 
 
-title.innerHTML =
-post.title;
 
+
+// UPDATE IMAGE
 
 
 image.src =
@@ -100,21 +144,39 @@ post.title;
 
 
 
+
+
+
+// UPDATE TITLE
+
+
+title.innerHTML =
+post.title;
+
+
+
+
+
+
+
+// UPDATE META
+
+
 meta.innerHTML = `
 
-${post.category}
+<span>${post.category}</span>
 
 |
 
-${post.author}
+<span>${post.author}</span>
 
 |
 
-${post.date}
+<span>${post.date}</span>
 
 |
 
-${post.readingTime}
+<span>${post.readingTime}</span>
 
 `;
 
@@ -123,23 +185,86 @@ ${post.readingTime}
 
 
 
-// LOAD ARTICLE HTML
+
+
+// SHOW LOADING
+
+
+content.innerHTML = `
+
+<p>
+Loading article content...
+</p>
+
+`;
+
+
+
+
+
+
+// FETCH ARTICLE FILE
 
 
 const articleResponse =
-
 await fetch(post.content);
 
 
 
-const articleHTML =
 
+if(!articleResponse.ok){
+
+throw new Error(
+"Article file not found"
+);
+
+}
+
+
+
+const articleHTML =
 await articleResponse.text();
 
 
 
 
-content.innerHTML = articleHTML;
+
+// INSERT ARTICLE
+
+
+content.innerHTML =
+articleHTML;
+
+
+
+
+
+
+
+// GOOGLE ANALYTICS PAGE VIEW
+
+if(typeof gtag === "function"){
+
+
+gtag(
+'event',
+'page_view',
+{
+
+page_title:
+post.title,
+
+page_location:
+window.location.href
+
+
+}
+
+);
+
+
+}
+
 
 
 
@@ -151,18 +276,33 @@ content.innerHTML = articleHTML;
 catch(error){
 
 
-console.log(
+console.error(
+"Post loading error:",
 error
 );
 
 
-content.innerHTML =
 
-`
+title.innerHTML =
+"Unable To Load Article";
+
+
+
+content.innerHTML = `
 
 <p>
-Unable to load article content.
+Something went wrong while loading this article.
 </p>
+
+
+<p>
+${error.message}
+</p>
+
+
+<a href="index.html">
+← Return Home
+</a>
 
 `;
 
@@ -173,6 +313,8 @@ Unable to load article content.
 
 
 }
+
+
 
 
 
