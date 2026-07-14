@@ -2,67 +2,79 @@
   {
     "id": 1,
     "title": "Employment Scams: How Fake Recruiters Steal Your Identity",
+    "slug": "employment-scam",
     "category": "Cyber Security",
     "description": "Learn how fake recruiters use attractive job offers to steal personal information, banking details and identities.",
     "image": "images/employment-scam.jpg",
     "date": "13 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "7 min read",
     "featured": true,
-    "link": "posts/employment-scam.html"
+    "content": "employment-scam"
   },
   {
     "id": 2,
     "title": "10 Ways To Make Your Laptop Faster",
+    "slug": "laptop-faster",
     "category": "Tech Tips",
     "description": "Simple maintenance tips to improve your laptop's speed and overall performance.",
-    "image": "💻",
+    "image": "images/laptop-faster.jpg",
     "date": "12 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "6 min read",
     "featured": false,
-    "link": "posts/laptop-faster.html"
+    "content": "laptop-faster"
   },
   {
     "id": 3,
     "title": "How Artificial Intelligence Is Changing Everyday Life",
+    "slug": "ai-changing-life",
     "category": "Artificial Intelligence",
     "description": "Discover how AI is transforming education, business, healthcare and personal productivity.",
-    "image": "🤖",
+    "image": "images/ai-changing-life.jpg",
     "date": "11 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "5 min read",
     "featured": false,
-    "link": "posts/ai-changing-life.html"
+    "content": "ai-changing-life"
   },
   {
     "id": 4,
     "title": "5 Signs a Website Is Fake",
+    "slug": "fake-websites",
     "category": "Scam Awareness",
     "description": "Learn how to identify phishing websites before entering your personal information.",
-    "image": "⚠️",
+    "image": "images/fake-websites.jpg",
     "date": "10 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "5 min read",
     "featured": false,
-    "link": "posts/fake-websites.html"
+    "content": "fake-websites"
   },
   {
     "id": 5,
     "title": "Why Every Business Needs a Professional Website",
+    "slug": "business-website",
     "category": "Tech Tips",
     "description": "Explore how a modern website helps businesses build trust, attract customers and increase sales.",
-    "image": "🌐",
+    "image": "images/business-website.jpg",
     "date": "9 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "6 min read",
     "featured": false,
-    "link": "posts/business-website.html"
+    "content": "business-website"
   },
   {
     "id": 6,
     "title": "Protecting Your WhatsApp Account From Hackers",
+    "slug": "whatsapp-security",
     "category": "Cyber Security",
     "description": "Essential security settings and habits to keep your WhatsApp account safe.",
-    "image": "🛡️",
+    "image": "images/whatsapp-security.jpg",
     "date": "8 July 2026",
     "author": "Tec Faktory",
+    "readingTime": "5 min read",
     "featured": false,
-    "link": "posts/whatsapp-security.html"
+    "content": "whatsapp-security"
   }
 ]
