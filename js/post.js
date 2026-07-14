@@ -319,3 +319,354 @@ ${error.message}
 
 
 loadPost();
+
+
+// =================================
+// TEC FAKTORY READING MODE AUDIO
+// =================================
+
+
+let audioContext;
+
+let noiseSource;
+
+let isPlaying = false;
+
+
+
+
+const musicModal =
+document.getElementById("musicModal");
+
+
+const musicPlayer =
+document.getElementById("musicPlayer");
+
+
+const enableMusic =
+document.getElementById("enableMusic");
+
+
+const skipMusic =
+document.getElementById("skipMusic");
+
+
+const pauseMusic =
+document.getElementById("pauseMusic");
+
+
+const closeMusic =
+document.getElementById("closeMusic");
+
+
+const currentTrack =
+document.getElementById("currentTrack");
+
+
+
+
+// SHOW POPUP AFTER PAGE LOAD
+
+window.addEventListener(
+"load",
+()=>{
+
+setTimeout(()=>{
+
+if(musicModal){
+
+musicModal.style.display="flex";
+
+}
+
+},1500);
+
+
+});
+
+
+
+
+
+
+// START READING MODE
+
+
+enableMusic.onclick = ()=>{
+
+
+musicModal.style.display="none";
+
+
+
+chooseSound();
+
+};
+
+
+
+
+
+skipMusic.onclick = ()=>{
+
+
+musicModal.style.display="none";
+
+
+};
+
+
+
+
+
+
+// SOUND MENU
+
+
+function chooseSound(){
+
+
+let choice = prompt(
+
+"Choose Reading Sound:\n\n" +
+
+"1 - Rain Focus\n" +
+
+"2 - Digital Ambient\n" +
+
+"3 - Deep Focus"
+
+);
+
+
+
+if(choice){
+
+startSound(choice);
+
+}
+
+
+}
+
+
+
+
+
+
+
+// CREATE AMBIENT SOUND
+
+
+function startSound(type){
+
+
+audioContext =
+new AudioContext();
+
+
+
+let bufferSize =
+audioContext.sampleRate * 2;
+
+
+
+let buffer =
+audioContext.createBuffer(
+
+1,
+
+bufferSize,
+
+audioContext.sampleRate
+
+);
+
+
+
+let data =
+buffer.getChannelData(0);
+
+
+
+
+
+for(
+let i=0;
+i<bufferSize;
+i++
+){
+
+
+data[i] =
+Math.random() * 2 - 1;
+
+
+}
+
+
+
+
+
+noiseSource =
+audioContext.createBufferSource();
+
+
+noiseSource.buffer =
+buffer;
+
+
+
+let filter =
+audioContext.createBiquadFilter();
+
+
+
+filter.type =
+"lowpass";
+
+
+
+filter.frequency.value =
+
+type == 2
+?
+600
+:
+300;
+
+
+
+
+
+noiseSource
+.connect(filter);
+
+
+
+filter
+.connect(
+audioContext.destination
+);
+
+
+
+noiseSource.loop=true;
+
+
+
+noiseSource.start();
+
+
+
+
+
+isPlaying=true;
+
+
+
+musicPlayer.style.display="block";
+
+
+
+if(type==1){
+
+currentTrack.innerHTML =
+"🌧 Rain Focus";
+
+}
+
+
+else if(type==2){
+
+currentTrack.innerHTML =
+"💻 Digital Ambient";
+
+}
+
+
+else{
+
+currentTrack.innerHTML =
+"🎯 Deep Focus";
+
+}
+
+
+}
+
+
+
+
+
+
+
+// PAUSE / RESUME
+
+
+pauseMusic.onclick = ()=>{
+
+
+if(!audioContext)
+return;
+
+
+
+if(isPlaying){
+
+
+audioContext.suspend();
+
+
+pauseMusic.innerHTML =
+"▶ Play";
+
+
+isPlaying=false;
+
+
+
+}
+
+else{
+
+
+audioContext.resume();
+
+
+pauseMusic.innerHTML =
+"⏸ Pause";
+
+
+isPlaying=true;
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+// CLOSE PLAYER
+
+
+closeMusic.onclick = ()=>{
+
+
+if(audioContext){
+
+audioContext.close();
+
+}
+
+
+musicPlayer.style.display="none";
+
+
+};
