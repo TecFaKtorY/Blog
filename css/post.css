@@ -1016,53 +1016,6 @@ transform:scale(1);
 }
 
 
-
-
-
-
-
-/* MOBILE */
-
-
-@media(max-width:768px){
-
-
-.article-title{
-
-
-font-size:32px;
-
-
-}
-
-
-
-.article-image{
-
-
-height:250px;
-
-
-}
-
-
-
-.author-box{
-
-
-flex-direction:column;
-
-
-text-align:center;
-
-
-}
-
-
-  }
-
-
-
 /* =========================
 READING MODE
 ========================= */
@@ -1181,3 +1134,370 @@ margin:10px 0;
 color:var(--muted);
 
 }
+
+
+
+
+
+/* MOBILE */
+
+
+/* ===================================
+   MOBILE RESPONSIVE
+=================================== */
+
+@media (max-width:768px){
+
+.article-page{
+
+max-width:100%;
+padding:18px;
+margin:35px auto;
+
+}
+
+
+/* Reduce heavy background glow */
+
+.article-page::before,
+.article-page::after{
+
+display:none;
+
+}
+
+
+/* Back button */
+
+.back-home{
+
+width:100%;
+justify-content:center;
+margin-bottom:25px;
+
+}
+
+
+/* Header */
+
+.article-header{
+
+text-align:left;
+
+}
+
+
+.category-badge{
+
+font-size:12px;
+
+padding:7px 16px;
+
+}
+
+
+.article-title{
+
+font-size:30px;
+line-height:1.35;
+margin:18px 0;
+
+word-break:break-word;
+
+}
+
+
+.article-meta{
+
+justify-content:flex-start;
+
+gap:8px;
+
+font-size:13px;
+
+}
+
+
+/* Hero image */
+
+.article-image{
+
+height:220px;
+
+margin:25px 0;
+
+border-radius:18px;
+
+}
+
+
+/* Content */
+
+.article-content{
+
+font-size:16px;
+
+line-height:1.85;
+
+padding:0;
+
+overflow-wrap:break-word;
+
+word-break:break-word;
+
+}
+
+
+.article-content h2{
+
+font-size:25px;
+
+margin-top:40px;
+
+margin-bottom:15px;
+
+}
+
+
+.article-content p{
+
+margin:18px 0;
+
+padding:0;
+
+}
+
+
+.article-content ul{
+
+padding-left:22px;
+
+margin:20px 0;
+
+}
+
+
+.article-content li{
+
+margin:10px 0;
+
+}
+
+
+/* Code */
+
+.article-content pre{
+
+overflow-x:auto;
+
+padding:18px;
+
+border-radius:15px;
+
+background:#0d1117;
+
+margin:20px 0;
+
+font-size:13px;
+
+}
+
+
+.article-content code{
+
+font-size:13px;
+
+white-space:pre;
+
+}
+
+
+/* Tables */
+
+.article-content table{
+
+display:block;
+
+overflow-x:auto;
+
+width:100%;
+
+}
+
+
+/* Images inside articles */
+
+.article-content img{
+
+width:100%;
+
+height:auto;
+
+border-radius:15px;
+
+margin:20px 0;
+
+}
+
+
+/* Premium boxes */
+
+.box,
+.message{
+
+padding:20px;
+
+border-radius:18px;
+
+margin:25px 0;
+
+font-size:15px;
+
+}
+
+
+/* Contact */
+
+.contact-box{
+
+padding:25px;
+
+margin-top:50px;
+
+border-radius:22px;
+
+}
+
+
+.contact-box h2{
+
+font-size:24px;
+
+}
+
+
+.contact-box input,
+.contact-box textarea{
+
+padding:16px;
+
+font-size:15px;
+
+}
+
+
+.contact-box button{
+
+width:100%;
+
+}
+
+
+/* Author */
+
+.author-box{
+
+flex-direction:column;
+
+text-align:center;
+
+padding:25px;
+
+}
+
+
+.author-box img{
+
+width:85px;
+height:85px;
+
+}
+
+
+/* Share */
+
+.share-box{
+
+padding:25px;
+
+}
+
+
+.share-buttons{
+
+flex-direction:column;
+
+}
+
+
+.share-buttons button{
+
+width:100%;
+
+}
+
+
+/* Music Player */
+
+.music-player{
+
+left:15px;
+right:15px;
+bottom:15px;
+
+width:auto;
+
+padding:18px;
+
+}
+
+
+.music-actions{
+
+flex-direction:column;
+
+}
+
+
+.music-actions button{
+
+width:100%;
+
+}
+
+
+/* Floating WhatsApp */
+
+#whatsappFloat{
+
+width:55px;
+height:55px;
+
+font-size:24px;
+
+bottom:18px;
+right:18px;
+
+}
+
+
+/* Listen button */
+
+#listenArticle{
+
+width:100%;
+
+margin-top:15px;
+
+}
+
+
+/* Reading progress */
+
+#readingProgress{
+
+height:4px;
+
+}
+
+   }
