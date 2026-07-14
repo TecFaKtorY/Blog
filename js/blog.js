@@ -149,14 +149,9 @@ ${featured.description}
 </p>
 
 
-
-<a href="${featured.link}">
-
+<a href="post.html?id=${featured.id}">
 Read Article →
-
 </a>
-
-
 
 </div>
 
