@@ -15,6 +15,114 @@ position:relative;
 
 }
 
+/* =========================
+READING PROGRESS
+========================= */
+
+
+#readingProgress{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+height:5px;
+
+width:0%;
+
+background:
+
+linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+z-index:99999;
+
+transition:.2s;
+
+}
+
+#whatsappFloat{
+
+
+position:fixed;
+
+right:25px;
+
+bottom:25px;
+
+
+width:60px;
+
+height:60px;
+
+
+border-radius:50%;
+
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+
+background:#25D366;
+
+
+color:white;
+
+
+font-size:28px;
+
+
+text-decoration:none;
+
+
+z-index:999;
+
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.3);
+
+
+transition:.3s;
+
+
+}
+
+
+
+#whatsappFloat:hover{
+
+transform:scale(1.1);
+
+}
+
+#listenArticle{
+
+padding:12px 25px;
+
+border-radius:30px;
+
+border:none;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+color:white;
+
+}
 
 
 /* TECH BACKGROUND EFFECT */
