@@ -292,13 +292,9 @@ ${post.date}
 <br><br>
 
 
-
-<a href="${post.link}">
-
+<a href="post.html?id=${post.id}">
 Read More →
-
 </a>
-
 
 
 </div>
