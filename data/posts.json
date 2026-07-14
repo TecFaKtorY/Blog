@@ -10,7 +10,7 @@
     "author": "Tec Faktory",
     "readingTime": "7 min read",
     "featured": true,
-    "content": "employment-scam"
+    "content": "posts/employment-scam.html"
   },
   {
     "id": 2,
@@ -23,7 +23,7 @@
     "author": "Tec Faktory",
     "readingTime": "6 min read",
     "featured": false,
-    "content": "laptop-faster"
+    "content": "posts/laptop-faster.html"
   },
   {
     "id": 3,
@@ -36,7 +36,7 @@
     "author": "Tec Faktory",
     "readingTime": "5 min read",
     "featured": false,
-    "content": "ai-changing-life"
+    "content": "posts/ai-changing-life.html"
   },
   {
     "id": 4,
@@ -49,7 +49,7 @@
     "author": "Tec Faktory",
     "readingTime": "5 min read",
     "featured": false,
-    "content": "fake-websites"
+    "content": "posts/fake-websites.html"
   },
   {
     "id": 5,
@@ -62,7 +62,7 @@
     "author": "Tec Faktory",
     "readingTime": "6 min read",
     "featured": false,
-    "content": "business-website"
+    "content": "posts/business-website.html"
   },
   {
     "id": 6,
@@ -75,6 +75,6 @@
     "author": "Tec Faktory",
     "readingTime": "5 min read",
     "featured": false,
-    "content": "whatsapp-security"
+    "content": "posts/whatsapp-security.html"
   }
 ]
