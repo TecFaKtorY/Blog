@@ -670,3 +670,158 @@ musicPlayer.style.display="none";
 
 
 };
+
+// =========================
+// TEXT TO SPEECH
+// =========================
+
+
+let speaking=false;
+
+
+document
+.getElementById(
+"listenArticle"
+)
+.onclick=()=>{
+
+
+let text =
+document
+.getElementById(
+"postContent"
+)
+.innerText;
+
+
+
+let speech =
+new SpeechSynthesisUtterance(text);
+
+
+
+if(!speaking){
+
+
+speechSynthesis.speak(
+speech
+);
+
+
+speaking=true;
+
+
+}
+
+else{
+
+
+speechSynthesis.cancel();
+
+
+speaking=false;
+
+
+}
+
+
+};
+
+function googleTranslateElementInit(){
+
+new google.translate.TranslateElement(
+
+{
+
+pageLanguage:'en'
+
+},
+
+'translateBox'
+
+);
+
+    }
+
+
+
+// =========================
+// WHATSAPP ARTICLE CHAT
+// =========================
+
+
+function setupWhatsApp(){
+
+
+let button =
+document.getElementById(
+"whatsappFloat"
+);
+
+
+let message =
+encodeURIComponent(
+
+"Hello Tec Faktory 👋\n\n" +
+
+"I am reading: " +
+
+document.title
+
+);
+
+
+
+button.href =
+"https://wa.me/2349050322014?text="
++
+message;
+
+
+}
+
+
+setupWhatsApp();
+
+// =========================
+// READING PROGRESS BAR
+// =========================
+
+
+window.addEventListener(
+"scroll",
+()=>{
+
+
+let article =
+document.querySelector(
+".article-content"
+);
+
+
+if(!article)
+return;
+
+
+
+let scrollTop =
+window.scrollY;
+
+
+let articleHeight =
+article.offsetHeight;
+
+
+
+let progress =
+(scrollTop / articleHeight) * 100;
+
+
+
+document.getElementById(
+"readingProgress"
+).style.width =
+progress + "%";
+
+
+});
