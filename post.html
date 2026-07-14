@@ -7,34 +7,46 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tec Faktory Blog</title>
 
-<meta name="description" content="Tec Faktory technology, cybersecurity and digital awareness articles.">
+<title>
+Tec Faktory Blog
+</title>
+
+
+<meta name="description" content="Technology, cybersecurity and digital awareness articles from Tec Faktory">
 
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="assets/css/blog.css">
+<link rel="stylesheet" href="css/blog.css">
 
 
 <style>
 
+
 .article-page{
 
 max-width:900px;
-margin:60px auto;
+
+margin:70px auto;
+
 padding:20px;
 
 }
 
 
+
 .article-image{
 
 width:100%;
+
 height:450px;
+
 object-fit:cover;
+
 border-radius:25px;
+
 margin-bottom:35px;
 
 }
@@ -44,6 +56,7 @@ margin-bottom:35px;
 .article-title{
 
 font-size:45px;
+
 line-height:1.3;
 
 }
@@ -53,7 +66,14 @@ line-height:1.3;
 .article-meta{
 
 color:#38bdf8;
+
 margin:20px 0 40px;
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
 
 }
 
@@ -69,8 +89,7 @@ font-size:17px;
 
 .article-content h2{
 
-margin-top:40px;
-margin-bottom:15px;
+margin-top:45px;
 
 }
 
@@ -80,14 +99,20 @@ margin-bottom:15px;
 
 margin:20px 0;
 
+color:var(--muted);
+
 }
+
 
 
 
 .author-box{
 
+
 display:flex;
+
 align-items:center;
+
 gap:20px;
 
 background:var(--card);
@@ -104,8 +129,10 @@ margin-top:60px;
 
 .author-box img{
 
-width:80px;
-height:80px;
+
+width:90px;
+
+height:90px;
 
 border-radius:50%;
 
@@ -117,27 +144,44 @@ object-fit:cover;
 
 .share-box{
 
-margin-top:30px;
-
-padding:25px;
 
 background:var(--card);
 
+padding:25px;
+
 border-radius:20px;
+
+margin-top:40px;
 
 }
 
 
 
-.share-box button{
+.share-buttons{
 
-padding:12px 25px;
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+.share-buttons button{
+
 
 border:none;
+
+padding:12px 25px;
 
 border-radius:30px;
 
 cursor:pointer;
+
+color:white;
+
 
 background:
 
@@ -147,11 +191,10 @@ var(--primary),
 var(--secondary)
 );
 
-color:white;
-
-font-weight:600;
 
 }
+
+
 
 
 
@@ -184,9 +227,11 @@ font-size:30px;
 
 .author-box{
 
+
 flex-direction:column;
 
 text-align:center;
+
 
 }
 
@@ -202,11 +247,13 @@ text-align:center;
 
 
 
+
 <body>
 
 
 
 <header>
+
 
 <nav class="navbar">
 
@@ -232,7 +279,9 @@ Tec <span>Faktory</span>
 </div>
 
 
+
 </nav>
+
 
 </header>
 
@@ -245,18 +294,24 @@ Tec <span>Faktory</span>
 
 
 
-<img 
+<img
+
 id="postImage"
+
 class="article-image"
+
 src=""
-alt=""
->
+
+alt="">
 
 
 
 
-<h1 
+
+<h1
+
 id="postTitle"
+
 class="article-title">
 
 Loading...
@@ -266,7 +321,12 @@ Loading...
 
 
 
-<div id="postMeta" class="article-meta">
+
+<div
+
+id="postMeta"
+
+class="article-meta">
 
 </div>
 
@@ -274,13 +334,19 @@ Loading...
 
 
 
-<div 
+
+<article
+
 id="postContent"
+
 class="article-content">
+
 
 Loading article...
 
-</div>
+
+</article>
+
 
 
 
@@ -291,12 +357,16 @@ Loading article...
 <section class="author-box">
 
 
-<img 
+<img
+
 src="images/logo.png"
+
 alt="Tec Faktory">
 
 
+
 <div>
+
 
 <h3>
 Tec Faktory
@@ -305,7 +375,7 @@ Tec Faktory
 
 <p>
 
-Technology education, cybersecurity awareness and digital solutions.
+Technology education, cybersecurity awareness, digital solutions and online safety resources.
 
 </p>
 
@@ -314,6 +384,7 @@ Technology education, cybersecurity awareness and digital solutions.
 
 
 </section>
+
 
 
 
@@ -332,12 +403,27 @@ Share this article
 <br>
 
 
-<button onclick="sharePost()">
 
-Share Article
+<div class="share-buttons">
+
+
+<button onclick="shareWhatsApp()">
+
+WhatsApp
 
 </button>
 
+
+
+<button onclick="shareArticle()">
+
+Share
+
+</button>
+
+
+
+</div>
 
 
 </section>
@@ -353,10 +439,11 @@ Share Article
 
 
 
-
 <footer>
 
+
 © 2026 Tec Faktory. All Rights Reserved.
+
 
 </footer>
 
@@ -370,24 +457,32 @@ Share Article
 
 
 
+
+
 <script>
 
 
-// THEME SWITCH
+// DARK LIGHT MODE
 
 
 const themeButton =
+
 document.getElementById("themeToggle");
 
 
 
 if(localStorage.getItem("theme")==="light"){
 
+
 document.body.classList.add("light");
+
 
 themeButton.innerHTML="🌙";
 
+
 }
+
+
 
 
 
@@ -397,19 +492,31 @@ themeButton.onclick=()=>{
 document.body.classList.toggle("light");
 
 
+
 if(document.body.classList.contains("light")){
 
-localStorage.setItem("theme","light");
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
 
 themeButton.innerHTML="🌙";
+
 
 
 }else{
 
 
-localStorage.setItem("theme","dark");
+localStorage.setItem(
+"theme",
+"dark"
+);
+
 
 themeButton.innerHTML="☀️";
+
 
 }
 
@@ -421,10 +528,9 @@ themeButton.innerHTML="☀️";
 
 
 
-// SHARE
 
 
-function sharePost(){
+function shareArticle(){
 
 
 if(navigator.share){
@@ -432,17 +538,17 @@ if(navigator.share){
 
 navigator.share({
 
-title:
-document.title,
+title:document.title,
 
-url:
-window.location.href
+url:window.location.href
 
 
 });
 
 
-}else{
+}
+
+else{
 
 
 navigator.clipboard.writeText(
@@ -451,11 +557,53 @@ window.location.href
 
 
 alert(
-"Article link copied!"
+"Article link copied"
 );
 
 
 }
+
+
+}
+
+
+
+
+
+
+function shareWhatsApp(){
+
+
+
+let url =
+encodeURIComponent(
+window.location.href
+);
+
+
+
+let text =
+encodeURIComponent(
+document.title
+);
+
+
+
+window.open(
+
+"https://wa.me/?text="
+
++
+text
++
+"%20"
++
+url,
+
+
+"_blank"
+
+);
 
 
 }
@@ -466,6 +614,10 @@ alert(
 
 
 
+
+
+
 </body>
+
 
 </html>
