@@ -424,14 +424,17 @@ var(--secondary)
 
 color:var(--muted);
 padding: 5px;
-
+text-align: justify;
 margin:25px 0;
 
 
 }
 
 
-
+.article-content ul{
+ padding: 10px;
+   text-align: justify;
+}
 
 
 .article-content li{
