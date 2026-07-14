@@ -952,3 +952,124 @@ text-align:center;
 
 
   }
+
+
+
+/* =========================
+READING MODE
+========================= */
+
+
+.music-modal{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.65);
+
+backdrop-filter:blur(10px);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+z-index:9999;
+
+}
+
+
+
+.music-card{
+
+background:var(--card);
+
+padding:40px;
+
+border-radius:30px;
+
+max-width:420px;
+
+text-align:center;
+
+box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+}
+
+
+
+.music-actions{
+
+display:flex;
+
+gap:15px;
+
+justify-content:center;
+
+margin-top:25px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+.music-actions button,
+.music-player button{
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:30px;
+
+cursor:pointer;
+
+background:linear-gradient(
+90deg,
+var(--primary),
+var(--secondary)
+);
+
+color:white;
+
+font-weight:600;
+
+}
+
+
+
+
+.music-player{
+
+display:none;
+
+position:fixed;
+
+bottom:25px;
+
+right:25px;
+
+background:var(--card);
+
+padding:20px;
+
+border-radius:20px;
+
+z-index:9998;
+
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+
+
+.music-player p{
+
+margin:10px 0;
+
+color:var(--muted);
+
+}
