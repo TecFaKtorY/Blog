@@ -497,3 +497,5 @@ console.log(
 }
 
 );
+
+trackArticleView(post.title);
