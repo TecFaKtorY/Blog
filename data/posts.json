@@ -89,5 +89,18 @@
   "readingTime": "10 min read",
   "featured": false,
   "content": "posts/cursed-trinity-web-attacks.html"
+  },
+  {
+  "id": 8,
+  "title": "Browser Cookies Explained: What They Do, How They Work and How Attackers Abuse Them",
+  "slug": "browser-cookies-explained",
+  "category": "Cyber Security",
+  "description": "Learn what browser cookies are, how websites use them, how attackers can abuse stolen session cookies, and how to protect yourself.",
+  "image": "images/browser-cookies.jpg",
+  "date": "16 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "8 min read",
+  "featured": false,
+  "content": "posts/cookies.html"
   }
 ]
