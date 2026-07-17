@@ -102,5 +102,18 @@
   "readingTime": "8 min read",
   "featured": false,
   "content": "posts/cookies.html"
+  },
+  {
+  "id": 9,
+  "title": "Anonymous Browsing Techniques: How People Protect Their Online Privacy",
+  "slug": "anonymous-browsing-techniques",
+  "category": "Cyber Security",
+  "description": "Learn how privacy tools and anonymous browsing techniques can reduce online tracking and protect your digital identity.",
+  "image": "images/anonymous-browsing.png",
+  "date": "17 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "8 min read",
+  "featured": true,
+  "content": "posts/anonymous-browsing-techniques.html"
   }
 ]
