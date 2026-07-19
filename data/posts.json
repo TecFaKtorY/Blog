@@ -115,5 +115,18 @@
   "readingTime": "8 min read",
   "featured": true,
   "content": "posts/anonymous-browsing-techniques.html"
+  },
+  {
+  "id": 10,
+  "title": "Locked Out Forever? How Forensic Experts Unlock Phones of the Deceased",
+  "slug": "forensic-experts-unlock-phones-deceased",
+  "category": "Digital Forensics",
+  "description": "Discover how authorized digital forensic experts investigate locked phones belonging to deceased individuals using forensic techniques, cloud data, connected devices and other sources of digital evidence.",
+  "image": "images/forensic-phone.jpg",
+  "date": "18 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "8 min read",
+  "featured": false,
+  "content": "posts/forensic-experts-unlock-phones-deceased.html"
   }
 ]
