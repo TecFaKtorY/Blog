@@ -1,0 +1,349 @@
+<div class="box warning">
+
+<strong>
+Educational Disclaimer
+</strong>
+
+<p>
+This article is intended for authorized security assessments, digital forensics, and defensive education only. All techniques described below are demonstrated in authorized environments with proper legal consent. Tec Faktory does not support or encourage unauthorized access to any device.
+</p>
+
+</div>
+
+<h2>The Digital Vault: Unlocking Phones of the Deceased</h2>
+
+<p>
+When most people think of "phone hacking," they imagine Hollywood scenes — a technician typing furiously, a progress bar racing to 100%, and a triumphant "We're in!" But the reality of unlocking a deceased person's phone is far more complex, constrained by hardware security, encryption, and the quiet grief of the people asking for help.
+</p>
+
+<p>
+This article covers the forensic methodologies that actually work — from bootrom exploits to cloud recovery — and explains why some phones remain sealed forever.
+</p>
+
+<hr>
+
+<h2>1. The Cloud Shortcut (Always Check First)</h2>
+
+<p>
+<strong>What it is:</strong> Before attempting any physical extraction, forensic examiners check whether the deceased's data is accessible through cloud backups — often the fastest and least destructive path.
+</p>
+
+<ul>
+<li>
+<strong>iCloud Backups:</strong> If the Apple ID is accessible (via court order, next-of-kin authorization, or Apple's Digital Legacy program), the full backup containing messages, photos, and settings can be downloaded without touching the locked device.
+</li>
+<li>
+<strong>Google Backups:</strong> Android phones back up to Google Drive. Google's Inactive Account Manager can be configured to grant access to trusted contacts after a period of inactivity. Account recovery via legal process is also available.
+</li>
+<li>
+<strong>Carrier &amp; Manufacturer Clouds:</strong> Samsung Cloud, Huawei Cloud, and carrier-specific services may hold additional backup data, including contacts and call logs.
+</li>
+</ul>
+
+<p>
+<strong>What a forensic examiner proves:</strong> The phone's data is recoverable without any physical risk to the device. No brute-forcing, no chip-off, no risk of auto-wipe.
+</p>
+
+<p>
+<strong>Key considerations:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Authorization is required:</strong> Apple and Google have formal processes for next-of-kin data requests, typically requiring a death certificate and proof of legal authority.
+</li>
+<li>
+<strong>Two-factor authentication:</strong> If the deceased used 2FA with the locked phone as the trusted device, cloud recovery becomes circular — you need the phone to access the cloud, and you need the cloud to access the phone.
+</li>
+<li>
+<strong>Backup recency:</strong> A backup from three years ago may not contain the data the family is looking for.
+</li>
+</ul>
+
+<hr>
+
+<h2>2. iPhones: The SEP and the checkm8 Loophole</h2>
+
+<p>
+<strong>What it is:</strong> Apple's Secure Enclave Processor (SEP) is a dedicated hardware coprocessor that enforces passcode verification with escalating timeouts and optional auto-wipe after 10 failed attempts. This makes live brute-force attacks effectively impossible.
+</p>
+
+<p>
+<strong>The checkm8 exploit:</strong> Discovered in 2019, checkm8 is a bootrom-level vulnerability affecting iPhone 4S through iPhone X (roughly 2011–2017 models). Because the bootrom is burned into read-only memory, Apple cannot patch it with a software update.
+</p>
+
+<p>
+<strong>How it works:</strong>
+</p>
+
+<ul>
+<li>
+The device is put into DFU (Device Firmware Update) mode and connected via USB.
+</li>
+<li>
+The checkm8 exploit halts the Secure Enclave and dumps its firmware along with the encrypted passcode blob.
+</li>
+<li>
+The passcode is brute-forced entirely offline — no timeouts, no auto-wipe risk.
+</li>
+</ul>
+
+<p>
+<strong>Proof of Concept — Tool: ipal (iPhone Passcode Alf):</strong>
+</p>
+
+<div class="box job">
+<strong>Workflow:</strong>
+<br><br>
+1. Enter DFU mode on the target iPhone.<br>
+2. Run `ipal` to exploit checkm8 and dump SEP firmware.<br>
+3. Extract the hashed passcode blob.<br>
+4. Brute-force offline:<br>
+&nbsp;&nbsp;- 4-digit PIN: cracked in seconds<br>
+&nbsp;&nbsp;- 6-digit PIN: minutes to hours (GPU-dependent)<br>
+&nbsp;&nbsp;- 8+ character alphanumeric: days to years without significant compute
+</div>
+
+<p>
+<strong>Limitations:</strong> Only works on iPhone X and older (A10 and earlier chips). iPhone 11 (A13) and newer devices have hardware mitigations. Additionally, devices with "USB Restricted Mode" enabled (common on iOS 12+) require the device to be unlocked at least once after a reboot to expose the Lightning port to data — though forensic tools often work around this with specialized cables.
+</p>
+
+<p>
+<strong>What a forensic examiner proves:</strong> Recovery of call logs, messages, photos, notes, and third-party app data from iPhone X and older models, even when the passcode is unknown.
+</p>
+
+<hr>
+
+<h2>3. Android: Fragmentation and EDL Mode</h2>
+
+<p>
+<strong>What it is:</strong> Android's diverse hardware ecosystem creates multiple attack surfaces that don't exist on iOS. The most powerful of these is Qualcomm's Emergency Download (EDL) mode.
+</p>
+
+<p>
+<strong>How EDL mode works:</strong>
+</p>
+
+<ul>
+<li>
+Qualcomm chipsets (found in most Samsung, OnePlus, Xiaomi, and Google Pixel devices before ~2022) have an EDL mode accessible by holding specific button combinations or shorting test points on the motherboard.
+</li>
+<li>
+In EDL mode, the device accepts "firehose" protocol commands to read and write raw partitions — including the <code>userdata</code> partition containing all user files.
+</li>
+<li>
+Tools like <strong>QPST</strong>, <strong>FireHouse</strong>, and <strong>Medusa Pro</strong> can dump the full NAND flash through EDL.
+</li>
+</ul>
+
+<div class="box job">
+<strong>Code Example — QPST EDL Dump:</strong>
+<br><br>
+# Put device into EDL mode (vol up + vol down + power, or test points)<br>
+# Confirm connection:<br>
+lsusb | grep "Qualcomm"<br>
+<br>
+# Use QPST or edl.py (open source):<br>
+python3 edl.py --loader=prog_firehose_ddr.elf --partition=userdata --dump=userdata.bin
+</div>
+
+<p>
+<strong>The encryption problem:</strong> Since Android 7.0, most devices use File-Based Encryption (FBE). The dumped <code>userdata</code> partition is encrypted with a key derived from the user's passcode. Without the passcode, you have a blob of ciphertext.
+</p>
+
+<p>
+<strong>Cracking the encryption key:</strong>
+</p>
+
+<ul>
+<li>
+Extract <code>gatekeeper.password.key</code> or <code>gatekeeper.pattern.key</code> from the dumped filesystem (or from the <code>/data/system</code> partition).
+</li>
+<li>
+Run the hash through <code>hashcat</code> with mode <code>-m 17220</code> (Android FBE / scrypt) or <code>-m 17210</code> (Android pattern).
+</li>
+<li>
+GPU-accelerated cracking can yield 4-digit PINs in minutes. Longer passwords remain prohibitive.
+</li>
+</ul>
+
+<p>
+<strong>What a forensic examiner proves:</strong> Full data extraction from Qualcomm-based Android devices, provided the passcode is sufficiently short or weak. For strong passcodes, EDL dumping alone is insufficient — the encryption must be cracked separately.
+</p>
+
+<hr>
+
+<h2>4. Commercial Forensic Hardware</h2>
+
+<p>
+<strong>What it is:</strong> For modern high-end phones (iPhone 11+ and recent Samsung flagships), consumer and open-source tools hit a wall. Professional forensic labs use specialized hardware:
+</p>
+
+<p>
+<strong>The major tools:</strong>
+</p>
+
+<ul>
+<li>
+<strong>GrayKey</strong> (~$15,000–$30,000): Specialized hardware appliance for iPhone passcode brute-force. Supports most iOS versions but success rates drop on the latest releases. Requires physical access and the device must be in AFU (After First Unlock) state for best results.
+</li>
+<li>
+<strong>Cellebrite Premium/UFED</strong> (~$6,000–$15,000/year subscription): The industry standard for mobile forensics. Supports physical extraction on thousands of device/OS combinations. Some models can bypass lock screens directly; others extract data after the lock is defeated.
+</li>
+<li>
+<strong>XRY</strong> (~$5,000–$10,000/year): Strong Android support. Often succeeds where Cellebrite struggles on specific Chinese-market devices.
+</li>
+<li>
+<strong>Magnet AXIOM</strong> (~$4,000–$8,000/year): A forensics analysis platform that integrates with extraction tools. Handles artifact parsing, timeline reconstruction, and reporting.
+</li>
+</ul>
+
+<p>
+<strong>What a forensic examiner proves:</strong> Access to modern, high-security devices that would otherwise be unreachable. These tools are the last resort when cloud recovery and DIY exploitation fail.
+</p>
+
+<p>
+<strong>Limitations:</strong>
+</p>
+
+<ul>
+<li>
+These tools are locked behind strict vetting — sold only to law enforcement, government agencies, and certified forensic labs.
+</li>
+<li>
+Firmware updates from Apple and Google frequently break compatibility until the tool vendors release patches.
+</li>
+<li>
+Devices in BFU (Before First Unlock) state are significantly harder or impossible for some models.
+</li>
+</ul>
+
+<hr>
+
+<h2>5. Chip-Off Forensics (The Nuclear Option)</h2>
+
+<p>
+<strong>What it is:</strong> Physical removal of the NAND flash chip from the phone's motherboard, followed by direct reading using a dedicated flash programmer.
+</p>
+
+<p>
+<strong>How it works:</strong>
+</p>
+
+<ul>
+<li>
+The phone's motherboard is removed, and the NAND chip is desoldered using a hot-air rework station.
+</li>
+<li>
+The chip is cleaned and placed in a compatible flash reader (e.g., NAND Reader, Medusa Pro, or PC-3000 Flash).
+</li>
+<li>
+The raw NAND dump is analyzed and reconstructed to recover the filesystem.
+</li>
+</ul>
+
+<p>
+<strong>What a forensic examiner proves:</strong> Data recovery from physically damaged phones, water-damaged devices, or phones with locked bootloaders where no other method works. Also bypasses any USB-based security restrictions entirely.
+</p>
+
+<p>
+<strong>Limitations:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Destructive:</strong> The phone is destroyed in the process. Not suitable if the device needs to be returned to the family intact.
+</li>
+<li>
+<strong>Encryption still applies:</strong> The raw NAND data is still encrypted. The passcode or crypto keys must still be derived or cracked.
+</li>
+<li>
+<strong>Cost:</strong> Requires specialist equipment and expertise — typically $2,000–$10,000+ per device.
+</li>
+<li>
+<strong>NAND bitrot:</strong> NAND flash degrades over time, and older chips may have read errors that complicate reconstruction.
+</li>
+</ul>
+
+<hr>
+
+<h2>6. The Legal and Ethical Framework</h2>
+
+<p>
+<strong>What it is:</strong> Every forensic phone unlock operates within a strict legal and ethical boundary. The techniques are not "hacks" in the criminal sense — they're controlled, documented procedures performed under authority.
+</p>
+
+<p>
+<strong>The key principles:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Authorization:</strong> Every unlock requires documented legal authority — a court order, written consent from the next of kin, or a lawful search warrant. Without it, performing any of these techniques is illegal in most jurisdictions.
+</li>
+<li>
+<strong>Chain of custody:</strong> Every action on the device must be logged and preserved. Forensic tools generate audit trails showing exactly what commands were executed and when.
+</li>
+<li>
+<strong>Least intrusive method:</strong> Examiners start with the least destructive approach (cloud recovery) and escalate only when necessary. Chip-off is a last resort.
+</li>
+<li>
+<strong>Data minimization:</strong> Only relevant data is extracted and documented. Third-party communications (messages between the deceased and others) are handled with care and legal consideration.
+</li>
+<li>
+<strong>Platform policies:</strong> Apple and Google have formal Digital Legacy programs. Using them avoids the need for technical bypasses entirely in many cases.
+</li>
+</ul>
+
+<hr>
+
+<h2>7. Putting It All Together: A Realistic Triage</h2>
+
+<p>
+During an authorized forensic examination, the workflow looks like this:
+</p>
+
+<ul>
+<li>
+<strong>Step 1 — Cloud check:</strong> Does the deceased have an iCloud/Google backup with recent data? If yes and the account is accessible, extract the data — done.
+</li>
+<li>
+<strong>Step 2 — Identify the device:</strong> What model and OS version? iPhone X or older? Checkm8-capable. Samsung with Qualcomm chip? EDL-capable. iPhone 15? Commercial tool or nothing.
+</li>
+<li>
+<strong>Step 3 — Determine lock state:</strong> Has the phone been rebooted recently? If so, it's in BFU state — harder to extract. If it's been running for days (AFU), tools have a much easier time.
+</li>
+<li>
+<strong>Step 4 — Apply the appropriate tool:</strong> Open-source for old devices, commercial for modern ones, chip-off as a last resort.
+</li>
+<li>
+<strong>Step 5 — Crack or bypass:</strong> Offline brute-force for checkm8-dumped SEP hashes or Android gatekeeper files. Or direct extraction if the tool supports live bypass.
+</li>
+<li>
+<strong>Step 6 — Document everything:</strong> Full chain of custody, tool logs, extracted artifacts, and a report for the requesting party.
+</li>
+</ul>
+
+<hr>
+
+<h2>Final Thoughts</h2>
+
+<p>
+Unlocking a deceased person's phone is rarely as simple as running a single tool and waiting for a progress bar. It's a methodical process that balances technical capability with legal authority and ethical responsibility.
+</p>
+
+<p>
+<strong>The landscape is shifting.</strong> Every year, Apple and Google close more hardware and software loopholes. The checkm8 exploit is one of the last great gifts to the forensics community — and it only covers devices up to 2017. Modern phones are harder, and future phones will be harder still.
+</p>
+
+<p>
+<strong>The defense mindset is everything.</strong> For device manufacturers, this is a feature — your data is safe even from sophisticated attackers. For forensic examiners, it means staying current with commercial tools, building relationships with labs that own them, and never skipping the simplest step: checking the cloud first.
+</p>
+
+<p>
+<strong>If you or your organization manages digital estate planning</strong>, the recommendation is straightforward: designate a legacy contact, store your master password with your will, and use a password manager. These few steps can save your loved ones thousands of dollars and months of grief.
+</p>
+
+<p>
+Stay sharp. Document thoroughly. Unlock responsibly.
+</p>
