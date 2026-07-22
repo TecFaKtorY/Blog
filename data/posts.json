@@ -9,7 +9,7 @@
     "date": "13 July 2026",
     "author": "Tec Faktory",
     "readingTime": "7 min read",
-    "featured": true,
+    "featured": false,
     "content":"posts/employment-scam.html" 
   },
   {
@@ -113,7 +113,7 @@
   "date": "17 July 2026",
   "author": "Tec Faktory",
   "readingTime": "8 min read",
-  "featured": true,
+  "featured": false,
   "content": "posts/anonymous-browsing-techniques.html"
   },
   {
@@ -141,5 +141,18 @@
 "readingTime": "8 min read",
 "featured": false,
 "content": "posts/keylogger.html"
-}
+},
+  {
+  "id": 12,
+  "title": "Lottery & Sweepstakes Scams: How Fake Winners Are Tricked",
+  "slug": "lottery-sweepstakes-scams",
+  "category": "Scam Awareness",
+  "description": "Learn how fake lottery and sweepstakes scams work, the warning signs to look out for, and how to protect yourself from fraudsters.",
+  "image": "images/lotto-scam.png",
+  "date": "22 July 2026",
+  "author": "Tec Faktory",
+    "readingTime": "8 min read",
+"featured": true,
+  "content": "posts/Lotto-scam.html"
+  }
 ]
