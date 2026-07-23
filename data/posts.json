@@ -154,5 +154,18 @@
     "readingTime": "8 min read",
 "featured": true,
   "content": "posts/lotto-scam.html"
+  },
+  {
+  "id": 13,
+  "title": "Cryptocurrency in Nigeria: A Beginner's Guide to Getting Started",
+  "slug": "cryptocurrency-nigeria",
+  "category": "Finance & Technology",
+  "description": "Learn what cryptocurrency is, why many Nigerians use it, how to get started safely, and how to protect yourself from crypto scams.",
+  "image": "images/cryptocurrency-nigeria.png",
+  "date": "23 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "7 min read",
+  "featured": false,
+  "content": "posts/cryptocurrency-in-nigeria.html"
   }
 ]
