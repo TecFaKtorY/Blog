@@ -167,5 +167,18 @@
   "readingTime": "7 min read",
   "featured": false,
   "content": "posts/cryptocurrency-in-nigeria.html"
+  },
+  {
+  "id": 14,
+  "title": "Stock Investing in Nigeria: A Beginner's Guide Using Bamboo",
+  "slug": "stock-investing-nigeria-bamboo",
+  "category": "Finance & Technology",
+  "description": "Learn what stock investing is, why people invest, how Bamboo works, and how Nigerians can begin investing safely while avoiding common investment scams.",
+  "image": "images/stock-investing.png",
+  "date": "20 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "8 min read",
+  "featured": false,
+  "content": "posts/stock-investing-nigeria.html"
   }
 ]
