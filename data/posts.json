@@ -180,5 +180,18 @@
   "readingTime": "8 min read",
   "featured": false,
   "content": "posts/stock-investing-nigeria.html"
+  },
+  {
+  "id": 16,
+  "title": "Rooting Android: Freedom or Security Risk? Everything You Need to Know",
+  "slug": "rooting-android-explained",
+  "category": "Tech Tips",
+  "description": "Discover what rooting an Android device really means, why people do it, the benefits, the risks, and how it affects your phone's security, updates and warranty.",
+  "image": "images/rooting-android.png",
+  "date": "21 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "9 min read",
+  "featured": false,
+  "content": "posts/rooting-android-explained.html"
   }
 ]
