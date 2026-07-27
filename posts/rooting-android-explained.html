@@ -1,0 +1,648 @@
+<div class="box warning">
+<strong>Educational Disclaimer</strong>
+<p>
+This article is for educational purposes only. Rooting a device can void its warranty, compromise security, and potentially render the device unusable if done incorrectly. The information provided here is meant to inform, not instruct. Proceed at your own risk.
+</p>
+</div>
+
+<h2>The Scenario</h2>
+
+<p>
+You have an Android smartphone. It works fine, but there are apps you cannot uninstall. There are settings you cannot change. There are features your hardware supports but your software hides from you. The manufacturer and carrier have decided what you can and cannot do with a device you own.
+</p>
+
+<ul>
+<li>Pre-installed bloatware you never asked for takes up storage and runs in the background.</li>
+<li>System updates stop arriving after two years even though the hardware is still capable.</li>
+<li>Apps cannot access certain folders or perform certain actions without permission.</li>
+<li>You cannot install a custom OS or take full control of your own hardware.</li>
+</ul>
+
+<p>
+For many users, this is acceptable. For others who want full control, the solution is rooting.
+</p>
+
+<h2>What Does "Rooting" Mean?</h2>
+
+<p>
+Rooting is the process of gaining privileged control — known as "root access" — over the Android operating system. It is the Android equivalent of jailbreaking on iOS. On Linux and Unix systems, the "root" user is the superuser with access to every command, file, and setting on the system. By default, Android locks this access away. Rooting unlocks it.
+</p>
+
+<p>
+Once a device is rooted, the user can modify system files, remove pre-installed applications, install custom kernels, run specialized apps that require deep system access, and even replace the entire operating system with a custom ROM.
+</p>
+
+<h2>Why Do People Root Their Phones?</h2>
+
+<p>
+The reasons vary from practical to philosophical, but they generally fall into these categories:
+</p>
+
+<ul>
+<li><strong>Remove bloatware:</strong> Carrier and manufacturer apps that cannot be uninstalled normally can be removed entirely.</li>
+<li><strong>Extended functionality:</strong> Apps like AdAway (system-wide ad blocking), Titanium Backup (full app backups), Greenify (aggressive battery management), and Viper4Android (audio enhancement) require root access.</li>
+<li><strong>Custom ROMs:</strong> Replace the stock OS with alternatives like LineageOS, Pixel Experience, or crDroid for newer Android versions, better performance, or cleaner interfaces.</li>
+<li><strong>Overclocking / Underclocking:</strong> Control the CPU and GPU speeds for better performance or improved battery life.</li>
+<li><strong>Full backups:</strong> Create complete system images that can be restored if something goes wrong.</li>
+<li><strong>Automation:</strong> Tools like Tasker can perform actions that require system-level access.</li>
+<li><strong>Privacy and control:</strong> Block trackers system-wide, control which apps have permissions, and remove Google services entirely if desired.</li>
+<li><strong>Extend device lifespan:</strong> Older devices that no longer receive official updates can run newer Android versions via custom ROMs.</li>
+</ul>
+
+<h2>What Can You Do With Root Access?</h2>
+
+<ul>
+<li>Remove any pre-installed app — even system apps — permanently</li>
+<li>Block ads system-wide at the host level (AdAway)</li>
+<li>Create full Nandroid backups of the entire system via custom recovery</li>
+<li>Install custom kernels for better performance, battery, or features</li>
+<li>Overclock or underclock the CPU and GPU</li>
+<li>Install custom ROMs to get newer Android versions on old devices</li>
+<li>Use apps like Titanium Backup to freeze, backup, and restore any app with its data</li>
+<li>Automate system-level tasks with Tasker root actions</li>
+<li>Modify system files — build.prop, host files, boot animations, fonts, sounds</li>
+<li>Access the full filesystem including /data, /system, and protected directories</li>
+<li>Install Xposed Framework modules to tweak app behavior without modifying the APK</li>
+<li>Use packet capture and SSL bypass tools for security testing (Frida, Burp Suite)</li>
+<li>Control CPU governors, I/O schedulers, and memory management</li>
+<li>Enable tethering if your carrier blocks it</li>
+<li>Force apps into full-screen or split-screen modes</li>
+</ul>
+
+<div class="box info">
+<strong>Common Root-Required Apps</strong>
+<p>
+AdAway — System-wide ad blocking<br>
+Titanium Backup — Full app and data backup<br>
+Magisk — Modern root solution with module support<br>
+Greenify — Aggressive app hibernation for battery<br>
+Viper4Android — Advanced audio control<br>
+Tasker (with root) — Deep system automation<br>
+Solid Explorer (root mode) — Access to system files<br>
+CF.lumen / f.lux — System-wide screen color temperature<br>
+AFWall+ — iptables-based firewall<br>
+SD Maid Pro — System cleaning tool with root features
+</p>
+</div>
+
+<h2>Advantages of Rooting</h2>
+
+<ul>
+<li><strong>Full control:</strong> You own your device completely. Nothing is hidden from you.</li>
+<li><strong>Remove bloatware:</strong> Free up storage and resources by uninstalling carrier and manufacturer apps.</li>
+<li><strong>Better performance:</strong> Custom kernels and governors can optimize CPU/GPU behavior for your needs.</li>
+<li><strong>Improved battery life:</strong> Aggressive app management, underclocking, and better doze modes.</li>
+<li><strong>System-wide ad blocking:</strong> Block ads at the host level, not just in the browser.</li>
+<li><strong>Latest Android versions:</strong> Custom ROMs can bring Android 14 to devices abandoned on Android 11 or 12.</li>
+<li><strong>Full backups:</strong> Nandroid backups via custom recovery allow you to restore the entire system state.</li>
+<li><strong>Privacy:</strong> Remove Google services, block trackers, and control exactly what data leaves your device.</li>
+<li><strong>Customization:</strong> Themes, fonts, boot animations, status bar tweaks — everything can be changed.</li>
+<li><strong>Security testing:</strong> For penetration testers, root access is essential for mobile app assessments.</li>
+</ul>
+
+<h2>The Hidden Risks</h2>
+
+<p>
+Rooting removes many of the security layers Android relies on to protect you. Even with careful management, the following risks are always present:
+</p>
+
+<ul>
+<li><strong>Malware gains root access too:</strong> If a malicious app tricks you into granting it root permission — or exploits a vulnerability to escalate privileges — it can read anything, delete anything, install anything, and hide itself from detection. A root-level malware infection is nearly impossible to remove without flashing stock firmware.</li>
+<li><strong>Systemless root can still be bypassed:</strong> Magisk's hiding features are a cat-and-mouse game. Google and third-party apps constantly update their detection methods. A future update to your banking app may detect root even if it did not before.</li>
+<li><strong>Bootloader unlocks weaken the trust chain:</strong> Android Verified Boot (AVB) ensures that only trusted software runs on the device. An unlocked bootloader disables this protection, allowing unsigned code to run at the lowest level.</li>
+<li><strong>OTA updates become problematic:</strong> Official system updates often fail on rooted devices. Users must manually download firmware, reflash, and re-root — and during that window, the device may be without security patches.</li>
+<li><strong>User error is the biggest threat:</strong> The most common cause of bricked phones is not malware — it is flashing the wrong file, running the wrong command, or interrupting a process mid-write.</li>
+<li><strong>Physical access is total access:</strong> If someone gains physical access to a rooted device with an unlocked bootloader, they can boot custom recovery, extract all data, and bypass any screen lock. Full disk encryption is significantly weaker when the bootloader is unlocked.</li>
+<li><strong>Voided warranty:</strong> Most manufacturers refuse service for rooted devices. Some may still service hardware defects but will deny software-related claims.</li>
+</ul>
+
+<h2>Disadvantages of Rooting</h2>
+
+<ul>
+<li><strong>Voids warranty:</strong> Most manufacturers consider rooting a breach of warranty terms.</li>
+<li><strong>Security risks:</strong> A rooted device is more vulnerable if malicious apps gain root access. Managing permissions carefully is essential.</li>
+<li><strong>Banking and streaming apps may break:</strong> Many apps (Google Wallet, banking apps, Netflix HD, some corporate apps) detect root and refuse to run.</li>
+<li><strong>Bricking risk:</strong> A failed root, wrong firmware, or interrupted process can render the device unusable.</li>
+<li><strong>OTA updates break:</strong> Once rooted, official over-the-air updates often fail and require manual flashing.</li>
+<li><strong>Time and effort:</strong> Rooting requires research, the right tools, and patience. It is not a five-minute process.</li>
+<li><strong>Some games implement anti-cheat:</strong> Games like Pokemon GO, PUBG Mobile, and certain banking apps detect root and block access.</li>
+<li><strong>Data wipe required:</strong> Unlocking the bootloader usually wipes all data on the device. Backups are mandatory.</li>
+<li><strong>Widevine L1 downgrade:</strong> Unlocking the bootloader often drops Widevine security level from L1 to L3, meaning streaming apps will only play SD quality, not HD.</li>
+</ul>
+
+<h2>Why Banking Apps Often Refuse to Run on Rooted Devices</h2>
+
+<p>
+This is one of the most common frustrations for rooted users, and it is not random or malicious on the bank's part. There are real security concerns:
+</p>
+
+<ul>
+<li><strong>Trusted execution environment is broken:</strong> Banking apps rely on the device's integrity guarantees. Root access means any app can intercept input (keylogging), read screen content (screen scraping), or modify the app's code at runtime. The bank cannot trust that your PIN is actually your PIN.</li>
+<li><strong>SSL pinning can be bypassed:</strong> On a rooted device, tools like Frida, Xposed, or custom certificates can intercept HTTPS traffic. This means someone could capture your banking session data even over an encrypted connection.</li>
+<li><strong>Google Play Integrity checks:</strong> Banking apps use Google's Play Integrity API (formerly SafetyNet) to verify the device state. If the device fails the integrity check — due to root, unlocked bootloader, custom ROM, or developer settings — the app refuses to run. This is a non-negotiable check baked into the app's backend.</li>
+<li><strong>Regulatory compliance:</strong> Banks are legally required (under regulations like PSD2 in Europe) to implement strong customer authentication. Running an app on a compromised device violates these requirements. Banks would rather block access than risk liability.</li>
+<li><strong>Magisk Hide is not permanent:</strong> While Magisk can hide root from many banking apps, it is a constant battle. Banks update their detection methods frequently, and occasionally a detection method breaks Magisk's hiding capabilities entirely until a new version is released.</li>
+</ul>
+
+<div class="box info">
+<strong>The Bottom Line on Banking Apps</strong>
+<p>
+If you root your device, assume that some banking and finance apps will not work. Some may allow you to log in but block payments. Others refuse to open at all. If mobile banking is essential to your daily life, weigh this cost carefully before rooting your primary device. Most security professionals keep a separate test device for rooted work and a clean daily driver for banking and personal use.
+</p>
+</div>
+
+<h2>Can a Rooted Phone Still Be Secure?</h2>
+
+<p>
+The honest answer is: it depends on who you are and what you do.
+</p>
+
+<p>
+<strong>For most users, no.</strong> The average person does not have the knowledge to manage root permissions carefully, vet every module they install, keep up with detection updates, and understand the implications of system-level access. For a casual user, a rooted phone is objectively less secure than a stock one.
+</p>
+
+<p>
+<strong>For experienced users, yes — with effort.</strong> A rooted device can be reasonably secure if:
+</p>
+
+<ul>
+<li>You only grant root access to apps you fully trust and understand</li>
+<li>You keep Magisk and all modules updated</li>
+<li>You avoid installing random modules from untrusted sources</li>
+<li>You use a firewall (like AFWall+) to control network access for all apps</li>
+<li>You lock the bootloader after rooting (possible on some devices, not all)</li>
+<li>You regularly check for suspicious processes and unexpected root grants</li>
+<li>You do not install sketchy APKs from outside the Play Store</li>
+</ul>
+
+<p>
+<strong>For absolute security, no device — rooted or not — is fully secure.</strong> The question is about risk tolerance. A stock Android device with a locked bootloader, up-to-date patches, and no sideloaded apps is the most secure configuration. Rooting trades some of that security for freedom and control.
+</p>
+
+<div class="box warning">
+<strong>Key Security Practices for Rooted Devices</strong>
+<p>
+- Use Magisk, not outdated SuperSU or Chinese one-click root tools<br>
+- Never grant root access to apps you do not recognize<br>
+- Disable root access in Magisk when you are not actively using it<br>
+- Do not install Xposed Framework or modules unless you fully understand the risks<br>
+- Keep the device's stock firmware and recovery images saved in case you need to restore<br>
+- Consider using a dedicated test device for pentesting and keep your daily driver clean
+</p>
+</div>
+
+<div class="box success">
+<strong>Modern Rooting — Magisk</strong>
+<p>
+Magisk has become the standard for rooting in recent years. Unlike older methods that modified system partitions, Magisk uses a "systemless" approach — it does not alter the system partition itself. This allows for:<br><br>
+- Passing Google's SafetyNet checks (many banking and streaming apps still work)<br>
+- Module-based modifications (install and uninstall features easily)<br>
+- OTA updates on some devices without losing root<br>
+- Hiding root from specific apps<br><br>
+Magisk has made rooting safer and more practical than it was five years ago, but the core risks remain.
+</p>
+</div>
+
+<h2>Should You Root Your Device?</h2>
+
+<p>
+Rooting is not for everyone. Here is when it makes sense:
+</p>
+
+<ul>
+<li><strong>Your device is no longer receiving updates.</strong> A custom ROM can bring security patches and new features to an otherwise abandoned phone.</li>
+<li><strong>You have a clear need for root-only apps.</strong> If you know exactly which root app you need and why, that is a solid reason.</li>
+<li><strong>You understand the risks and accept them.</strong> Rooting should be a conscious decision, not a trend.</li>
+<li><strong>You are comfortable with troubleshooting.</strong> Things can go wrong. Booting into recovery mode and fixing issues is part of the experience.</li>
+<li><strong>You own the device outright.</strong> Rooting a carrier-locked or financed device can cause complications.</li>
+<li><strong>You are a security professional.</strong> Mobile app pentesting and security research often require root access.</li>
+</ul>
+
+<div class="box danger">
+<strong>When NOT to Root</strong>
+<p>
+- If this is your only phone and you cannot afford a replacement.<br>
+- If you are not comfortable with command-line tools, recovery modes, and the possibility of bricking.<br>
+- If you rely on banking apps that may detect root and refuse to run.<br>
+- If the device is still under warranty and you are not willing to void it.<br>
+- If you just want to "try it" without understanding what you are doing.<br>
+- If you need HD streaming from Netflix, Amazon Prime, or Disney+ (Widevine L1 is lost).
+</p>
+</div>
+
+<h2>The Rooting Process — Overview</h2>
+
+<p>
+While the exact steps vary by device, the general process looks like this:
+</p>
+
+<ul>
+<li><strong>Unlock the bootloader:</strong> This is the first step. Most manufacturers provide official methods (Xiaomi, OnePlus, Google Pixel) while others require workarounds. Unlocking the bootloader wipes the device.</li>
+<li><strong>Install a custom recovery:</strong> Tools like TWRP (Team Win Recovery Project) replace the stock recovery environment and allow flashing custom files.</li>
+<li><strong>Flash the root solution:</strong> For Magisk, this means flashing the Magisk ZIP file via custom recovery, or patching the boot image using the Magisk app on a computer.</li>
+<li><strong>Verify root:</strong> Use an app like Root Checker to confirm root access is working. The Magisk app will also show the root status.</li>
+<li><strong>Manage root permissions:</strong> Apps will request root access, and Magisk's Superuser section lets you grant or deny them individually.</li>
+</ul>
+
+<div class="box danger">
+<strong>Important Warning</strong>
+<p>
+Do not search for "one-click root" tools or APK files claiming to root your device without unlocking the bootloader. These are almost always scams or malware. Legitimate rooting requires bootloader unlocking and conscious steps. There is no magic button.
+</p>
+</div>
+
+<h2>How To Check if Your Phone Is Rooted</h2>
+
+<h3>Method 1 — Check for Root Apps</h3>
+
+<p>
+Look for applications that require or indicate root access. Common ones include:
+</p>
+
+<ul>
+<li><strong>Magisk</strong> — The most popular root management app today. If installed, the device is rooted.</li>
+<li><strong>SuperSU</strong> — Older root management app. If present, the device has root.</li>
+<li><strong>KingRoot / KingoRoot / Farmaroot</strong> — Chinese one-click root tools. Their presence indicates root or an attempt was made.</li>
+<li><strong>BusyBox</strong> — A collection of Unix utilities often installed after rooting.</li>
+</ul>
+
+<h3>Method 2 — Use a Root Checker App</h3>
+
+<p>
+Install a root verification app from the Play Store or sideload it. Popular options include:
+</p>
+
+<ul>
+<li><strong>Root Checker</strong> by joeykrim — The most widely used. It runs a simple su command and reports whether root is available.</li>
+<li><strong>Root Verifier</strong> — Also checks for BusyBox and custom recovery presence.</li>
+<li><strong>Magisk Manager (now called Magisk app)</strong> — If Magisk is installed, the app itself shows root status on the home screen.</li>
+</ul>
+
+<h3>Method 3 — Manual Shell Check</h3>
+
+<p>
+If you have access to a computer with ADB (Android Debug Bridge) set up, or you can use a terminal emulator on the device itself:
+</p>
+
+<div class="message">
+# Connect via ADB
+adb shell
+
+# Try to switch to root
+su
+
+# If you see a "#" prompt instead of "$", you have root access
+# Alternatively, run:
+id
+
+# If uid=0(root) appears, the device is rooted.
+</div>
+
+<p>
+You can also check for the presence of the su binary without executing it:
+</p>
+
+<div class="message">
+# Check if su exists
+which su
+# or
+ls -la /system/bin/su
+ls -la /system/xbin/su
+ls -la /sbin/su
+# or for Magisk-based root
+ls -la /data/adb/magisk/
+</div>
+
+<h3>Method 4 — Check for Custom Recovery</h3>
+
+<p>
+Boot the device into recovery mode (usually Volume Up + Power button during boot) and check if the screen says "Team Win Recovery Project" (TWRP) or shows an orange/blue menu instead of the stock Android recovery. Custom recovery is a strong indicator that the device is — or was — rooted.
+</p>
+
+<h3>Method 5 — SafetyNet / Play Integrity Check</h3>
+
+<p>
+Google's SafetyNet (now replaced by Play Integrity) checks whether the device has been tampered with. You can install an app like "SafetyNet Check" or "YASNAC (Yet Another SafetyNet Attestation Checker)" from the Play Store. If the device fails the CTS profile match or shows "basicIntegrity: false," the device is likely rooted or has an unlocked bootloader.
+</p>
+
+<div class="box info">
+<strong>Why This Matters in a Pentest</strong>
+<p>
+During a mobile security assessment, detecting root is critical because a rooted device bypasses many of Android's built-in security controls. Apps can read other apps' data, access system files, hook into processes, and bypass SSL pinning. If a device is rooted without authorization, that is a security finding. If you are authorized to root it, you gain access to deeper testing capabilities.
+</p>
+</div>
+
+<h2>How To Root a Device</h2>
+
+<div class="box danger">
+<strong>Warning</strong>
+<p>
+Rooting will void the warranty, wipe all data during bootloader unlocking, and carries the risk of bricking the device if done incorrectly. The steps below are general guidelines. Every device model requires device-specific files and steps. Always research your exact model on XDA Developers forums before proceeding.
+</p>
+</div>
+
+<h3>Prerequisites</h3>
+
+<ul>
+<li>A computer running Windows, Linux, or macOS</li>
+<li>A USB cable that supports data transfer</li>
+<li>The device fully charged (at least 70%)</li>
+<li>USB debugging enabled in Developer Options</li>
+<li>OEM Unlocking enabled in Developer Options (if available)</li>
+<li>ADB and Fastboot installed on your computer</li>
+<li>The correct firmware files and root solution for your specific device model</li>
+<li>A full backup of all important data (the process will wipe the device)</li>
+</ul>
+
+<h3>Step 1 — Unlock the Bootloader</h3>
+
+<p>
+This is the most critical step and varies by manufacturer. Without an unlocked bootloader, you cannot flash custom files.
+</p>
+
+<div class="message">
+# Reboot into fastboot/bootloader mode
+adb reboot bootloader
+
+# Check if device is detected
+fastboot devices
+
+# For Google Pixel / OnePlus / Xiaomi / Motorola:
+fastboot flashing unlock
+# or
+fastboot oem unlock
+
+# Some manufacturers (Samsung, Huawei) have different methods.
+# Samsung uses download mode (Volume Down + Power) instead of fastboot.
+# Confirm on the device screen, then reboot.
+fastboot reboot
+</div>
+
+<p>
+<strong>Note:</strong> Some manufacturers like Xiaomi require you to request an unlock code through their official tool and wait up to 7 days. Others like Huawei and newer Honor devices do not allow bootloader unlocking at all. Research your manufacturer's policy beforehand.
+</p>
+
+<h3>Step 2 — Install Custom Recovery (TWRP)</h3>
+
+<div class="message">
+# Download the correct TWRP image for your device
+# Reboot to bootloader
+adb reboot bootloader
+
+# Flash TWRP
+fastboot flash recovery twrp-3.7.0_12-0-[devicecodename].img
+
+# Boot into recovery immediately (do not let the system boot normally
+# or it may overwrite TWRP)
+fastboot boot twrp-3.7.0_12-0-[devicecodename].img
+
+# Once TWRP boots, you will see the recovery menu.
+# Swipe to allow modifications.
+</div>
+
+<h3>Step 3 — Flash the Root Solution (Magisk)</h3>
+
+<div class="message">
+# Option A — Flash Magisk ZIP via TWRP:
+# 1. Download the latest Magisk-v27.0.zip (or newer)
+# 2. Transfer it to the device or an SD card
+# 3. In TWRP, tap "Install"
+# 4. Select the Magisk ZIP file
+# 5. Swipe to confirm flash
+# 6. Reboot system
+
+# Option B — Patch boot image with Magisk app:
+# 1. Extract the stock boot.img from your device's firmware
+# 2. Transfer it to the device
+# 3. Open Magisk app → Install → Select and Patch a File
+# 4. Select the boot.img
+# 5. Transfer the patched boot.img back to your computer
+# 6. Flash it via fastboot:
+fastboot flash boot magisk_patched-[random].img
+fastboot reboot
+</div>
+
+<h3>Step 4 — Verify Root</h3>
+
+<div class="message">
+# After reboot, install the Magisk app if not already present
+# Open the app — it should show "Installed" with the Magisk version
+# Use a terminal to verify:
+adb shell
+su
+# If the prompt changes to "#", you have root.
+</div>
+
+<div class="box success">
+<strong>Alternative — Kitsune Mask / Alpha Magisk</strong>
+<p>
+For devices where standard Magisk is detected by apps, Kitsune Mask (formerly Magisk Delta) and Magisk Alpha are forks that include additional hiding features. The flashing process is the same — download the appropriate ZIP and flash via TWRP or patch the boot image.
+</p>
+</div>
+
+<h2>How To Unroot If Rooted</h2>
+
+<p>
+There are several scenarios where you may need to remove root: returning a device under warranty, selling it, passing a corporate security policy, or reverting after a pentest. The method depends on how the device was rooted.
+</p>
+
+<h3>Method 1 — Unroot Through Magisk App</h3>
+
+<p>
+If the device is rooted with Magisk, this is the simplest method:
+</p>
+
+<div class="message">
+# Open the Magisk app on the device
+# Tap "Uninstall Magisk" at the bottom of the screen
+# Choose:
+#   - "Complete Uninstall" — fully removes Magisk and restores the stock boot image
+#   - "Restore Images" — removes Magisk but keeps modules (if you plan to reinstall later)
+# Confirm and let the app run. The device will reboot.
+# Magisk is now removed. Root access is gone.
+</div>
+
+<h3>Method 2 — Flash Stock Firmware (Full Restore)</h3>
+
+<p>
+This is the most thorough method. It restores the device to its factory state, including the stock boot image, stock recovery, and system partition. Every device has a different flashing tool:
+</p>
+
+<ul>
+<li><strong>Samsung:</strong> Odin tool — load the stock firmware (AP, BL, CP, CSC) and flash</li>
+<li><strong>Google Pixel / OnePlus:</strong> Flash the stock factory image via fastboot</li>
+<li><strong>Xiaomi:</strong> Mi Flash Tool — load the fastboot ROM and flash</li>
+<li><strong>Motorola / LG / Sony:</strong> Respective OEM flash tools or fastboot commands</li>
+</ul>
+
+<div class="message">
+# Generic fastboot method (for devices that support it):
+# Download the stock firmware for your exact model
+# Extract the images
+adb reboot bootloader
+
+# Flash each partition with stock images
+fastboot flash boot boot.img
+fastboot flash recovery recovery.img
+fastboot flash system system.img
+fastboot flash vendor vendor.img
+
+# Lock the bootloader (optional — wipes data again)
+fastboot flashing lock
+# or
+fastboot oem lock
+
+fastboot reboot
+</div>
+
+<p>
+<strong>Important:</strong> Flashing stock firmware will wipe all data. Back up anything important first. Also note that locking the bootloader will perform another factory reset, so do that last.
+</p>
+
+<h3>Method 3 — Flash Stock Boot Image Only</h3>
+
+<p>
+If you only want to remove root without fully restoring the system, and you know the device was rooted only by patching the boot image:
+</p>
+
+<div class="message">
+# Extract the stock boot.img from the original firmware
+# Reboot to fastboot
+adb reboot bootloader
+
+# Flash the stock boot image
+fastboot flash boot stock_boot.img
+
+# Reboot
+fastboot reboot
+
+# Root is removed, but the bootloader remains unlocked and custom recovery
+# may still be installed.
+</div>
+
+<h3>Method 4 — Use SuperSU's Full Unroot (Legacy Devices)</h3>
+
+<p>
+For older devices rooted with SuperSU (pre-Magisk era):
+</p>
+
+<div class="message">
+# Open the SuperSU app
+# Go to Settings
+# Scroll down to "Full Unroot"
+# Select "Yes" when prompted
+# The device will reboot. SuperSU and root are removed.
+</div>
+
+<h3>Method 5 — ADB Command to Remove su Binary</h3>
+
+<p>
+If you can access a rooted device via ADB, you can manually remove the su binary. This is less thorough but works in a pinch:
+</p>
+
+<div class="message">
+adb shell
+su
+# Remount system as writable
+mount -o rw,remount /system
+# Remove su binaries
+rm -f /system/bin/su
+rm -f /system/xbin/su
+rm -f /sbin/su
+# Remove Magisk files if present
+rm -rf /data/adb/magisk/
+rm -rf /data/adb/modules/
+# Remove SuperSU files if present
+rm -f /system/app/SuperSU.apk
+rm -f /system/etc/install-recovery.sh
+# Reboot
+reboot
+</div>
+
+<div class="box warning">
+<strong>Verification After Unroot</strong>
+<p>
+After unrooting, always verify that root is truly gone:
+</p>
+<ul>
+<li>Run a root checker app — it should show "Root is NOT properly installed"</li>
+<li>Run "adb shell su" — it should return "su: not found" or "Permission denied"</li>
+<li>Open the Magisk or SuperSU app — it should report that the device is not rooted</li>
+<li>Check SafetyNet / Play Integrity — it should pass (assuming the bootloader is locked)</li>
+</ul>
+<p>
+If you sold the device or returned it under warranty, locking the bootloader is essential. An unlocked bootloader alone can void warranty and is a security risk for the next user.
+</p>
+</div>
+
+<h2>Rooting vs. Jailbreaking</h2>
+
+<p>
+People often compare rooting Android to jailbreaking iOS, but they are different in important ways:
+</p>
+
+<ul>
+<li><strong>Rooting</strong> gives superuser access to the existing operating system. The OS remains Android. You gain permissions you previously lacked.</li>
+<li><strong>Jailbreaking</strong> removes Apple's restrictions on iOS, allowing unauthorized apps and tweaks. It is generally more restrictive because iOS itself is closed-source.</li>
+<li>Rooting is more common and better supported than jailbreaking because Android is open-source and designed with flexibility in mind.</li>
+<li>Jailbreaking is a constant cat-and-mouse game with Apple's security updates. Rooting on Android is a more stable and mature ecosystem.</li>
+</ul>
+
+<h2>Final Verdict: Is Rooting Worth It in 2026?</h2>
+
+<p>
+In 2026, the landscape looks different than it did five or ten years ago. Many features that once required root — ad blocking, screen recording, call screening, automated backup — are now available in stock Android or through non-root apps. Google has closed many of the gaps that drove users to root in the first place.
+</p>
+
+<p>
+At the same time, the cost of rooting has increased. Banking apps have stricter detection. Streaming services enforce Widevine L1 for HD content, and an unlocked bootloader often downgrades that to L3. Corporate device management policies (MDM) flag rooted devices and may wipe company data.
+</p>
+
+<p>
+<strong>Rooting is still worth it if:</strong>
+</p>
+
+<ul>
+<li>You have a specific need that requires root (pentesting, full system backups, custom ROMs for an abandoned device)</li>
+<li>You understand the risks and accept them</li>
+<li>You maintain a separate test device and a clean daily driver</li>
+<li>You value control over convenience</li>
+</ul>
+
+<p>
+<strong>Rooting is not worth it if:</strong>
+</p>
+
+<ul>
+<li>You just want to remove one pre-installed app</li>
+<li>This is your only phone and you rely on it for banking and work</li>
+<li>You are not comfortable troubleshooting when things break</li>
+<li>You are doing it because someone told you to without understanding why</li>
+</ul>
+
+<div class="box success">
+<strong>2026 Verdict</strong>
+<p>
+Rooting is no longer a necessity for most users. Stock Android has matured significantly. But for the enthusiast, the security researcher, and the user holding a device abandoned by its manufacturer, rooting remains a powerful and legitimate tool. It is not dead — it is specialized. Know what you need it for before you commit, and always have a way back.
+</p>
+</div>
+
+<h2>Final Thoughts</h2>
+
+<p>
+Rooting is a powerful tool, but it is not a requirement. Most users will never need root access. The stock Android experience has improved significantly over the years — bloatware is less aggressive, permissions are more granular, and features that once required root are now built in.
+</p>
+
+<p>
+Rooting is for the user who has hit a wall. Who wants more control than the manufacturer allows. Who is willing to accept the risks in exchange for freedom. It is a conscious choice, not a casual one.
+</p>
+
+<p>
+If you decide to root, research your specific device model thoroughly. Every phone is different. Read the XDA Developers forum for your device. Understand the steps before you begin. And always, always back up your data first.
+</p>
+
+<p>
+Stay informed.<br>
+Stay secure.<br>
+Stay protected.
+</p>
