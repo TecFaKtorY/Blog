@@ -193,5 +193,18 @@
   "readingTime": "9 min read",
   "featured": false,
   "content": "posts/rooting-android-explained.html"
+  },
+  {
+  "id": 17,
+  "title": "Operating Systems Explained: The Brain Behind Every Computer and Smartphone",
+  "slug": "operating-systems-explained",
+  "category": "Computer Science",
+  "description": "Learn what an operating system is, how it manages hardware and software, the role of the kernel, memory management, security features, and how to choose the right operating system for your needs.",
+  "image": "images/operating-system.png",
+  "date": "21 July 2026",
+  "author": "Tec Faktory",
+  "readingTime": "14 min read",
+  "featured": true,
+  "content": "posts/operating-systems-explained.html"
   }
 ]
