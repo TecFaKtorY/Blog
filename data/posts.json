@@ -152,7 +152,7 @@
   "date": "22 July 2026",
   "author": "Tec Faktory",
     "readingTime": "8 min read",
-"featured": true,
+"featured": false,
   "content": "posts/lotto-scam.html"
   },
   {
@@ -201,7 +201,7 @@
   "category": "Tech Tips",
   "description": "Learn what an operating system is, how it manages hardware and software, the role of the kernel, memory management, security features, and how to choose the right operating system for your needs.",
   "image": "images/operating-system.png",
-  "date": "21 July 2026",
+  "date": "29 July 2026",
   "author": "Tec Faktory",
   "readingTime": "14 min read",
   "featured": true,
